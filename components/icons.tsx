@@ -6,7 +6,7 @@ import {
 
 /* eslint-disable @next/next/no-img-element */
 export const BrandLogo = () => (
-  <img src={BRAND_LOGO}  width="90" height="80" alt="Brand logo" />
+  <img src={BRAND_LOGO}  width="70" height="60" alt="Brand logo" />
 );
 
 export const BrandLogoDark = () => (
