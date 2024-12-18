@@ -11,8 +11,11 @@ type ThemeContextType = {
   setDirection: (dir: DirType) => void;
 };
 
-export const ThemeContext = createContext<ThemeContextType>(
-  {} as ThemeContextType
-);
-
+export const ThemeContext = createContext<ThemeContextType>({
+  theme: "dark",
+  direction: "ltr", // Default direction
+  toggleDarkMode: () => {}, // Placeholder function
+  isDarkMode: true,
+  setDirection: () => {}, // Placeholder function
+});
 export const useTheme = () => useContext(ThemeContext);
