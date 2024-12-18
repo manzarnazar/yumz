@@ -10,7 +10,7 @@ export const BrandLogo = () => (
 );
 
 export const BrandLogoDark = () => (
-  <img src={BRAND_LOGO_DARK} width="110" height="110" alt="Brand logo dark" />
+  <img src={BRAND_LOGO_DARK} width="70" height="60" alt="Brand logo dark" />
 );
 
 export const DoubleCheckIcon = () => (
