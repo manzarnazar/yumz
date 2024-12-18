@@ -45,7 +45,7 @@ type Props = {
 
 export default function ThemeProvider({
   children,
-  appTheme = "dark", // Default to "dark"
+  appTheme,
   appDirection,
 }: Props) {
   const [state, dispatch] = useReducer(reducer, {
