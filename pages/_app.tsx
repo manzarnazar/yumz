@@ -95,7 +95,7 @@ export default function ExtendedApp({
       <Hydrate state={pageProps.dehydratedState}>
         <CacheProvider value={emotionCache || csEmotionCache}>
           <MuiThemeProvider deviceType={deviceType}>
-            <ThemeProvider appTheme={appTheme} appDirection={appDirection}>
+            <ThemeProvider appTheme="dark" appDirection={appDirection}>
               <Provider store={store}>
                 <SettingsProvider
                   settingsState={settingsState}
