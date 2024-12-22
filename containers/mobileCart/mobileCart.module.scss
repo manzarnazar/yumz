@@ -3,7 +3,7 @@
   position: fixed;
   bottom: 30px;
   right: 15px;
-  z-index: 1;
+  z-index: 100;
   .btn {
     display: flex;
     align-items: center;
@@ -20,5 +20,6 @@
   }
   @media (max-width: 1139px) {
     display: block;
+    z-index: 100;
   }
 }
