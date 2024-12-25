@@ -19,7 +19,7 @@ type HomeProps = {
 
 export default function Home({ uiType = "1" }: HomeProps) {
   const Ui = uiTypes[uiType];
-  const Homev1 = uiTypes["1"];xw
+  const Homev1 = uiTypes["1"];
   return (
     <>
       <Welcome />
