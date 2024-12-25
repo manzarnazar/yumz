@@ -4,6 +4,7 @@ import { GetServerSideProps } from "next";
 import dynamic from "next/dynamic";
 import informationService from "services/information";
 import createSettings from "utils/createSettings";
+import Welcome from "./welcome";
 
 const uiTypes = {
   "1": dynamic(() => import("containers/homev1/homev1")),
@@ -18,12 +19,10 @@ type HomeProps = {
 
 export default function Home({ uiType = "1" }: HomeProps) {
   const Ui = uiTypes[uiType];
-  const Homev1 = uiTypes["1"];
+  const Homev1 = uiTypes["1"];xw
   return (
     <>
-      <SEO />
-      {!!Ui ? <Ui /> : <Homev1 />}
-      <FooterMenu />
+      <Welcome />
     </>
   );
 }
