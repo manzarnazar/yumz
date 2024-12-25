@@ -16,9 +16,9 @@ type HomeProps = {
   uiType?: keyof typeof uiTypes;
 };
 
-export default function Home({ uiType = "4" }: HomeProps) {
+export default function Home({ uiType = "1" }: HomeProps) {
   const Ui = uiTypes[uiType];
-  const Homev1 = uiTypes["4"];
+  const Homev1 = uiTypes["1"];
   return (
     <>
       <SEO />
