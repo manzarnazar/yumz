@@ -49,6 +49,8 @@
   }
   .menuBtn {
     padding: 10px 25px;
+    transform: scale(0.8); /* Scales the element to 50% of its original size */
+
     position: relative;
     font-size: 0;
     cursor: pointer;
