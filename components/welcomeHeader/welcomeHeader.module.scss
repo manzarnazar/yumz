@@ -41,7 +41,7 @@
     }
     .brandLogo {
       display: block;
-      // margin-right: 10px;
+      margin-left: 10px;
       img {
         object-fit: contain;
       }
@@ -94,6 +94,7 @@
     }
     @media (max-width: 576px) {
       display: none;
+      
       
       
     }

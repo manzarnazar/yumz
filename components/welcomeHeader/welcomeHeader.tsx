@@ -57,7 +57,7 @@ export default function WelcomeHeader({}: Props) {
           </div>
         </div>
         <div className={cls.navItem}>
-          <SecondaryButton onClick={() => push("/login")}>
+          <SecondaryButton size="small" onClick={() => push("/login")}>
             {t("login")}
           </SecondaryButton>
         </div>
