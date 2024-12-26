@@ -1,7 +1,9 @@
 import SEO from "components/seo";
 import FooterMenu from "containers/footerMenu/footerMenu";
+import { useAppSelector } from "hooks/useRedux";
 import { GetServerSideProps } from "next";
 import dynamic from "next/dynamic";
+
 import informationService from "services/information";
 import createSettings from "utils/createSettings";
 
@@ -19,6 +21,8 @@ type HomeProps = {
 export default function Home({ uiType = "1" }: HomeProps) {
   const Ui = uiTypes[uiType];
   const Homev1 = uiTypes["1"];
+
+
   return (
     <>
       <SEO />

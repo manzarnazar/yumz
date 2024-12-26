@@ -41,13 +41,14 @@ Router.events.on("routeChangeError", () => NProgress.done());
 const clientSideEmotionCache = createEmotionCache();
 const clientSideRtlEmotionCache = createRtlEmotionCache();
 const pagesWithoutLayout = [
-  "register",
-  "login",
-  "reset-password",
-  "verify-phone",
-  "update-password",
-  "update-details",
+  "/register",
+  "/login",
+  "/reset-password",
+  "/verify-phone",
+  "/update-password",
+  "/update-details",
   "/",
+
 ];
 
 const uiTypes = ["1", "2", "3", "4"];

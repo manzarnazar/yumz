@@ -3,14 +3,29 @@
   left: 0;
   top: 0;
   z-index: 99;
-  background-color: transparent;
+  // background-color: red;
+  // max-width: 1370px;
+  width: 100%;
+  background-color: #2b343b;
+
+  .navContainer {
+    width: 100%;
+    // background-color: green;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1370px;
+    
+  }
+
 
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
   height: 90px;
-  padding: 0 15px;
+  // padding: 0 15px;
   .navItem {
     display: flex;
     align-items: center;

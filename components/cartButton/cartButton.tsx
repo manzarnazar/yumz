@@ -14,6 +14,8 @@ export default function CartButton({}: Props) {
   const cart = useAppSelector(selectCart);
   const totalPrice = useAppSelector(selectTotalPrice);
 
+
+
   if (cart.length) {
     return (
       <div className={cls.cartBtnWrapper}>

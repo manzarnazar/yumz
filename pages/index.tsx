@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import SEO from "components/seo";
 import WelcomeContainer from "containers/welcome/welcome";
 import WelcomeHero from "components/welcomeHero/welcomeHero";
@@ -13,10 +13,22 @@ import { GetStaticProps } from "next";
 import getLanguage from "utils/getLanguage";
 import { getCookie } from "utils/session";
 import pageService from "services/page";
+import { useAuth } from "contexts/auth/auth.context";
+import { useRouter } from "next/router";
 
 type Props = {};
 
 export default function Welcome({}: Props) {
+  const { isAuthenticated } = useAuth();
+  const { push } = useRouter();
+
+  if (isAuthenticated) {
+    if (typeof window !== "undefined") {
+      push("/home");
+    }
+    
+    return null; // Prevent rendering the welcome page
+  }
   const { locale } = useLocale();
 
   const { data } = useQuery(["landingPage", locale], () =>

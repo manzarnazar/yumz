@@ -24,8 +24,12 @@ export default function WelcomeHeader({}: Props) {
   const [appDrawer, handleOpenAppDrawer, handleCloseAppDrawer] = useModal();
 
   return (
-    <div className="welcome-container">
+    <>
+    
       <header className={cls.header}>
+        <div className={cls.navContainer}>
+
+        
         <div className={cls.navItem}>
           {/* <button className={cls.menuBtn} onClick={handleOpenAppDrawer}>
             menu
@@ -53,9 +57,12 @@ export default function WelcomeHeader({}: Props) {
             {t("login")}
           </SecondaryButton>
         </div>
+        </div>
       </header>
+    <div className="welcome-container">
 
       <AppDrawer open={appDrawer} handleClose={handleCloseAppDrawer} />
     </div>
+    </>
   );
 }

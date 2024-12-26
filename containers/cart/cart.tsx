@@ -17,6 +17,9 @@ export default function Cart({ shop }: Props) {
   const cartItems = useAppSelector(selectCart);
   const totalPrice = useAppSelector(selectTotalPrice);
 
+
+  
+
   return (
     <div className={cls.wrapper}>
       <div className={cls.body}>

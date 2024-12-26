@@ -36,7 +36,7 @@ export default function SocialLogin({}: Props) {
             const token = data.token_type + " " + data.access_token;
             setCookie("access_token", token);
             setUserData(data.user);
-            push("/");
+            push("/home");
           })
           .catch((err) => error(err?.data?.message))
           .finally(() => nProgress.done());
