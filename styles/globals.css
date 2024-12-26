@@ -368,6 +368,15 @@ input[data-autocompleted] {
     width: 40%;
     padding-top: 10px;
   }
+  
+  .welcome-container {
+    position: relative;
+    width: 100%;
+     max-width: 1270px;
+    padding: 0 15px; 
+    margin: 0 auto;
+  }
+  
 }
 
 .shadowLeft {
@@ -389,6 +398,7 @@ input[data-autocompleted] {
   @media (max-width: 576px) {
     display: none;
   }
+  
 }
 
 .shadowRight {
