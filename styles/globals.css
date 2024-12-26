@@ -72,7 +72,11 @@ body {
     Helvetica Neue,
     sans-serif;
 }
-
+.brandLogo{
+  width: 50;
+  height: 60;
+  background-color: red;
+}
 a {
   color: inherit;
   text-decoration: none;
