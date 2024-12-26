@@ -1,12 +1,12 @@
 .header {
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
   z-index: 99;
   // background-color: red;
   // max-width: 1370px;
   width: 100%;
-  background-color: #2b343b1d;
+  background-color: #2b343b;
 
   .navContainer {
     width: 100%;
@@ -16,9 +16,9 @@
     align-items: center;
     justify-content: space-between;
     max-width: 1270px;
+    padding: 0px 20px;
     
   }
-
 
   display: flex;
   align-items: center;
@@ -41,37 +41,37 @@
     }
     .brandLogo {
       display: block;
-      margin-right: 10px;
+      // margin-right: 10px;
       img {
         object-fit: contain;
       }
     }
-    .menuBtn {
-      padding: 10px 25px;
-      position: relative;
-      font-size: 0;
-      cursor: pointer;
-      &::after,
-      &::before {
-        content: "";
-        position: absolute;
-        left: 5px;
-        width: 40px;
-        height: 2px;
-        background-color: var(--black);
-      }
-      &::after {
-        bottom: 5px;
-      }
-      &::before {
-        top: 5px;
-      }
+  }
+  .menuBtn {
+    padding: 10px 25px;
+    position: relative;
+    font-size: 0;
+    cursor: pointer;
+    &::after,
+    &::before {
+      content: "";
+      position: absolute;
+      left: 5px;
+      width: 40px;
+      height: 2px;
+      background-color: var(--black);
     }
-    button {
-      border-color: #fff;
-      span {
-        color: #fff;
-      }
+    &::after {
+      bottom: 5px;
+    }
+    &::before {
+      top: 5px;
+    }
+  }
+  button {
+    border-color: #fff;
+    span {
+      color: #fff;
     }
   }
   .searchBar {
@@ -94,8 +94,22 @@
     }
     @media (max-width: 576px) {
       display: none;
+      
+      
     }
   }
+}
+@media (max-width: 576px) {
+  .another{
+    display: none;
+  }
+}
+@media (min-width: 576px) {
+  
+  .menuBtn{
+    display: none;
+  }
+  
 }
 
 [dir="rtl"] {
@@ -112,4 +126,27 @@
       }
     }
   }
+}
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(360deg);
+  }
+  80% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.logoAnimated {
+  animation: rotate 4.2s ease-in-out infinite; /* 2s animation + 2s delay */
+
+
+
+
+
 }

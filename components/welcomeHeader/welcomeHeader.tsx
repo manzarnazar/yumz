@@ -28,18 +28,22 @@ export default function WelcomeHeader({}: Props) {
     
       <header className={cls.header}>
         <div className={cls.navContainer}>
-
+        
+           <button className={cls.menuBtn} onClick={handleOpenAppDrawer}>
+            menu
+          </button> 
+          
         
         <div className={cls.navItem}>
-          {/* <button className={cls.menuBtn} onClick={handleOpenAppDrawer}>
-            menu
-          </button> */}
+         
           <Link href="/" className={cls.brandLogo}>
             {/* {isDarkMode ? <BrandLogoDark /> : <BrandLogo />} */}
-            <BrandLogoDark />
+            <div className={ cls.logoAnimated}>
+                <BrandLogoDark />
+              </div>
           </Link>
         </div>
-        <div className={cls.navItem}>
+        <div className={(cls.navItem, cls.another)}>
           <div className={cls.actions}>
             <Link href="/about" className={cls.itemLink}>
               {t("about")}
