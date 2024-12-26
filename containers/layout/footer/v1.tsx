@@ -53,7 +53,7 @@ export default function Footer({}: Props) {
           <Grid item xs={12} md={3}>
             <ul className={cls.column}>
             <li className={cls.columnItem}>
-                <Link href="/home" className={cls.listItem}>
+                <Link href="/welcome" className={cls.listItem}>
                   {t("home.page")}
                 </Link>
               </li>

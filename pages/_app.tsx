@@ -47,7 +47,7 @@ const pagesWithoutLayout = [
   "verify-phone",
   "update-password",
   "update-details",
-  "/",
+  "welcome",
 ];
 
 const uiTypes = ["1", "2", "3", "4"];
@@ -80,8 +80,8 @@ export default function ExtendedApp({
 }: MyAppProps) {
   NProgress.configure({ showSpinner: false });
   const { pathname } = useRouter();
-  const isAuthPage = pagesWithoutLayout.includes(pathname);
-  // const isAuthPage = pagesWithoutLayout.some((item) => pathname.includes(item));
+  // const isAuthPage = pagesWithoutLayout.includes(pathname);
+  const isAuthPage = pagesWithoutLayout.some((item) => pathname.includes(item));
   const deviceType = useDeviceType(userAgent);
   const [queryClient] = useState(() => new QueryClient(config));
   const csEmotionCache =
