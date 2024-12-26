@@ -1,40 +1,63 @@
+import React from "react";
 import SEO from "components/seo";
-import FooterMenu from "containers/footerMenu/footerMenu";
-import { GetServerSideProps } from "next";
-import dynamic from "next/dynamic";
-import informationService from "services/information";
-import createSettings from "utils/createSettings";
+import WelcomeContainer from "containers/welcome/welcome";
+import WelcomeHero from "components/welcomeHero/welcomeHero";
+import WhyChooseUs from "components/whyChooseUs/whyChooseUs";
+import { QueryClient, dehydrate, useQuery } from "react-query";
+import useLocale from "hooks/useLocale";
+import blogService from "services/blog";
+import WelcomeBlog from "components/welcomeBlog/welcomeBlog";
+import FaqContainer from "containers/faq/faq";
+import faqService from "services/faq";
+import { GetStaticProps } from "next";
+import getLanguage from "utils/getLanguage";
+import { getCookie } from "utils/session";
+import pageService from "services/page";
 
-const uiTypes = {
-  "1": dynamic(() => import("containers/homev1/homev1")),
-  "4": dynamic(() => import("containers/homev4/homev4")),
-  "2": dynamic(() => import("containers/homev2/homev2")),
-  "3": dynamic(() => import("containers/homev3/homev3")),
-};
+type Props = {};
 
-type HomeProps = {
-  uiType?: keyof typeof uiTypes;
-};
+export default function Welcome({}: Props) {
+  const { locale } = useLocale();
 
-export default function Home({ uiType = "1" }: HomeProps) {
-  const Ui = uiTypes[uiType];
-  const Homev1 = uiTypes["1"];
+  const { data } = useQuery(["landingPage", locale], () =>
+    pageService.getLandingPage()
+  );
+
+  const { data: stats } = useQuery(["stats", locale], () =>
+    pageService.getStatistics()
+  );
+
+  const { data: blog } = useQuery(["lastBlog", locale], () =>
+    blogService.getLastBlog()
+  );
+
+  const { data: faqs } = useQuery(["faqs", locale], () => faqService.getAll());
+
   return (
     <>
       <SEO />
-      {!!Ui ? <Ui /> : <Homev1 />}
-      <FooterMenu />
+      <WelcomeContainer>
+        <WelcomeHero data={data?.data?.data} stats={stats?.data} />
+        <WhyChooseUs data={data?.data?.data} />
+        <WelcomeBlog data={blog?.data} />
+        <FaqContainer data={faqs?.data} />
+      </WelcomeContainer>
     </>
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const settingsData = await informationService.getSettings();
-  const obj = createSettings(settingsData?.data);
+export const getStaticProps: GetStaticProps = async (ctx) => {
+  const queryClient = new QueryClient();
+  const locale = getLanguage(getCookie("locale", ctx));
+
+  await queryClient.prefetchQuery(["landingPage", locale], () =>
+    pageService.getLandingPage()
+  );
 
   return {
     props: {
-      uiType: process.env.NEXT_PUBLIC_UI_TYPE || obj?.ui_type,
+      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
     },
+    revalidate: 3600,
   };
 };
