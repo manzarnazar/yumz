@@ -50,30 +50,37 @@ export default function Welcome({ isAuthenticated }: Props) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const queryClient = new QueryClient();
-  const locale = getLanguage(getCookie("locale", ctx));
-  const authToken = getCookie("access_token", ctx); // Check cookie on SSR
-  const isAuthenticated = authToken ? true : false; // Determine authentication status based on the token
+  try {
+    const queryClient = new QueryClient();
+    const locale = getLanguage(getCookie("locale", ctx)); // Get the locale
+    const authToken = getCookie("access_token", ctx); // Get the auth token from cookies
+    const isAuthenticated = authToken ? true : false; // Check if the user is authenticated
 
-  // If authenticated, redirect to /home
-  if (isAuthenticated) {
+    // If authenticated, redirect to /home
+    if (isAuthenticated) {
+      return {
+        redirect: {
+          destination: "/home",  // Redirect to /home if authenticated
+          permanent: false,
+        },
+      };
+    }
+
+    // Prefetch landing page data
+    await queryClient.prefetchQuery(["landingPage", locale], () =>
+      pageService.getLandingPage()
+    );
+
     return {
-      redirect: {
-        destination: "/home",
-        permanent: false,
+      props: {
+        dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
+        isAuthenticated,
       },
     };
+  } catch (error) {
+    console.error("Error in getServerSideProps:", error);
+    return {
+      notFound: true, // Return 404 page on error
+    };
   }
-
-  await queryClient.prefetchQuery(["landingPage", locale], () =>
-    pageService.getLandingPage()
-  );
-
-  return {
-    props: {
-      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
-      isAuthenticated,
-    },
-    revalidate: 3600,
-  };
 };
