@@ -22,14 +22,14 @@ export default function Welcome({}: Props) {
   const { isAuthenticated } = useAuth();
   const { push } = useRouter();
 
-  const router = useRouter();
-
-  // Redirect on initial render
+  console.log("is it ? ",isAuthenticated);
+  
   if (isAuthenticated) {
     if (typeof window !== "undefined") {
-      router.replace("/home"); // Use `replace` to avoid adding this to history
+      push("/home");
     }
-    return null; // Prevent rendering of the page content
+    
+    return null; // Prevent rendering the welcome page
   }
   const { locale } = useLocale();
 
