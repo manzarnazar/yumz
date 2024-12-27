@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import SEO from "components/seo";
 import WelcomeContainer from "containers/welcome/welcome";
 import WelcomeHero from "components/welcomeHero/welcomeHero";
@@ -22,15 +22,22 @@ export default function Welcome({}: Props) {
   const { isAuthenticated } = useAuth();
   const { push } = useRouter();
 
-  console.log("is it ? ",isAuthenticated);
-  
-  if (isAuthenticated) {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Only redirect on client-side, after the hydration is complete
     if (typeof window !== "undefined") {
-      push("/home");
+      if (isAuthenticated) {
+        push("/home");
+      } else {
+        setLoading(false); // Allow the page to render if not authenticated
+      }
     }
-    
-    return null; // Prevent rendering the welcome page
-  }
+  }, [isAuthenticated, push]);
+
+  if (loading) return null; // You can add a loading spinner here
+
+
   const { locale } = useLocale();
 
   const { data } = useQuery(["landingPage", locale], () =>
