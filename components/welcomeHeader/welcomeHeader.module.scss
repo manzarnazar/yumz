@@ -137,16 +137,13 @@
   50% {
     transform: rotate(360deg);
   }
-  80% {
-    transform: rotate(360deg);
-  }
   100% {
-    transform: rotate(360deg);
+    transform: rotate(0deg);
   }
 }
 
 .logoAnimated {
-  animation: rotate 3.2s ease-in-out infinite; /* 2s animation + 2s delay */
+  animation: rotate 3.2s ease-in-out; /* 2s animation + 2s delay */
 
 
 
