@@ -29,7 +29,7 @@ export default function Home({ uiType = "1" }: HomeProps) {
     // const cartItems = cart?.user_carts.flatMap((item) => item.cartDetails) || [];
 
   
-
+    console.log("cart",cart.user_carts.length);
 
   return (
     <>

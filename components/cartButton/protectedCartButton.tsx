@@ -26,13 +26,13 @@ export default function ProtectedCartButton({}: Props) {
   const cartIndicatorVisible = useAppSelector(state => state.userCart.indicatorVisible)
   const cartItems = cart?.user_carts.flatMap((item) => item.cartDetails) || [];
   const currency = useAppSelector(selectCurrency);
-  const {location} = useSettings();
+  const { location } = useSettings();
 
   useQuery(
     ["cart", currency?.id],
     () => cartService.get({ currency_id: currency?.id }),
     {
-    onSuccess: (data) => dispatch(updateUserCart(data.data)),
+      onSuccess: (data) => dispatch(updateUserCart(data.data)),
       onError: () => dispatch(clearUserCart()),
       retry: false,
     }
@@ -40,7 +40,7 @@ export default function ProtectedCartButton({}: Props) {
 
   const locationArray = location.split(',')
 
- useQuery(
+  useQuery(
     ["shopZone", location],
     () =>
       shopService.checkZoneById(cart?.shop_id, {
@@ -58,6 +58,9 @@ export default function ProtectedCartButton({}: Props) {
       <div className={cls.cartBtnWrapper}>
         <Link href={`/shop/${cart.shop_id}`} className={cls.cartBtn}>
           <ShoppingBag3LineIcon />
+          {cartItems.length > 0 && (
+            <span className={cls.badge}>{cartItems.length}</span>
+          )}
           <div className={cls.text}>
             <span>{t("order")}</span>{" "}
             <span className={cls.price}>
