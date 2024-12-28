@@ -34,15 +34,35 @@ export default function WelcomeHero({ data, stats }: Props) {
     }
     updateAddress(inputRef.current?.value);
     updateLocation(`${location.lat},${location.lng}`);
-    push("/");
+    push("/home");
   };
 
   const chooseDefaultAddress = async () => {
-    const latlng = DEFAULT_LOCATION?.split(",") || [];
-    setLocation({ lat: Number(latlng[0] || 0), lng: Number(latlng[1] || 0) });
-    const address = await getAddressFromLocation(DEFAULT_LOCATION);
-    inputRef.current.value = address;
+    if (!navigator.geolocation) {
+      alert(t("geolocation.not.supported"));
+      return;
+    }
+  
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+        setLocation({ lat: latitude, lng: longitude });
+  
+        try {
+          const address = await getAddressFromLocation(`${latitude},${longitude}`);
+          inputRef.current.value = address;
+        } catch (error) {
+          console.error("Failed to fetch address:", error);
+          inputRef.current.value = t("failed.to.get.address");
+        }
+      },
+      (error) => {
+        console.error("Geolocation error:", error);
+        alert(t("failed.to.get.location"));
+      }
+    );
   };
+  
 
   return (
     <>
