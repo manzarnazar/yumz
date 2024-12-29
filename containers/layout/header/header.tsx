@@ -52,7 +52,7 @@ export default function Header() {
               </button>
             )}
             <Link href="/" className={cls.brandLogo}>
-		{isDarkMode ? <BrandLogoDark /> : <BrandLogo />}
+		          {isDarkMode ? <BrandLogoDark /> : <BrandLogo />}
             </Link>
           </div>
           <div
@@ -68,7 +68,7 @@ export default function Header() {
           </div>
           <div className={cls.navItem}>
             <div className={cls.actions}>
-              <button className={cls.iconBtn} onClick={toggleDarkMode}>
+              {/* <button className={cls.iconBtn} onClick={toggleDarkMode}>
                 {isDarkMode ? <MoonFillIcon /> : <SunFillIcon />}
               </button>
               <button className={cls.iconBtn} onClick={handleOpenLang}>
@@ -76,7 +76,7 @@ export default function Header() {
               </button>
               <button className={cls.iconBtn} onClick={handleOpenCurrency}>
                 <BankCardLineIcon />
-              </button>
+              </button> */}
               <NotificationStats />
             </div>
             {isAuthenticated ? (
