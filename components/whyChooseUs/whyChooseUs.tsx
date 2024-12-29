@@ -10,24 +10,33 @@ type Props = {
 export default function WhyChooseUs({ data }: Props) {
   const { t, locale } = useLocale();
 
+  console.log("Data:", data);
+  console.log("Locale:", locale);
+
   return (
     <div className={cls.container}>
       <div className="welcome-container">
         <section className={cls.wrapper}>
-          {!!data?.features.length && (
+          {!!data?.features?.length && (
             <h1 className={cls.title}>{t("why.choose.us")}</h1>
           )}
           <div className={cls.flex}>
-            {data?.features.map((item, idx) => (
-              <div key={idx} className={cls.card} tabIndex={idx + 1}>
-                <div className={cls.number}>0{idx + 1}</div>
-                <h3 className={cls.cardTitle}>{item.title[locale]}</h3>
-                <p className={cls.text}>{item.description[locale]}</p>
-                <video loop muted autoPlay>
-                  <source src={item.img} />
-                </video>
-              </div>
-            ))}
+            {data?.features.map((item, idx) => {
+              const title = item.title[locale] || "Default Title";
+              const description = item.description[locale] || "Default Description";
+
+              return (
+                <div key={idx} className={cls.card} tabIndex={idx + 1}>
+                  <div className={cls.number}>0{idx + 1}</div>
+                  <h3 className={cls.cardTitle}>{title}</h3>
+                  <p className={cls.text}>{description}</p>
+                  <img
+                    src={item.img}
+                    alt={`Feature ${idx + 1}`}
+                  />
+                </div>
+              );
+            })}
           </div>
         </section>
       </div>
