@@ -14,12 +14,28 @@ import getLanguage from "utils/getLanguage";
 import { getCookie } from "utils/session";
 import pageService from "services/page";
 import { useRouter } from "next/router";
+import { useSettings } from "contexts/settings/settings.context";
 
 type Props = {
   isAuthenticated: boolean;
 };
 
 export default function Welcome({ isAuthenticated }: Props) {
+
+  const {address} = useSettings();
+  const { push } = useRouter();
+    
+        console.log("cart",address);
+
+        if (address) {
+    if (typeof window !== "undefined") {
+      push("/home");
+    }
+    return null
+  }
+
+
+
   const { locale } = useLocale();
 
   const { data } = useQuery(["landingPage", locale], () =>
