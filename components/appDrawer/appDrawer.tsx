@@ -34,9 +34,9 @@ export default function AppDrawer({ open, handleClose }: Props) {
       open={open}
       onClose={handleClose}
     >
-      <button className={cls.iconBtn} onClick={toggleDarkMode}>
+      {/* <button className={cls.iconBtn} onClick={toggleDarkMode}>
         {isDarkMode ? <MoonFillIcon /> : <SunFillIcon />}
-      </button>
+      </button> */}
       <div className={cls.wrapper}>
         {isMobile && <MobileAppDrawer handleClose={handleClose} />}
         {!isAuthenticated ? (

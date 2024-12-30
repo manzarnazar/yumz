@@ -132,20 +132,20 @@ export default function MobileAppDrawer({ handleClose }: Props) {
             <ArrowRightSLineIcon />
           </Link>
         )}
-        <Link href={"/"} className={cls.row} onClick={handleOpenLangDrawer}>
+        {/* <Link href={"/"} className={cls.row} onClick={handleOpenLangDrawer}>
           <div className={cls.rowItem}>
             <GlobalLineIcon />
             <span className={cls.text}>{t("languages")}</span>
           </div>
           <ArrowRightSLineIcon />
-        </Link>
-        <Link href={"/"} className={cls.row} onClick={handleOpenCurrencyDrawer}>
+        </Link> */}
+        {/* <Link href={"/"} className={cls.row} onClick={handleOpenCurrencyDrawer}>
           <div className={cls.rowItem}>
             <BankCardLineIcon />
             <span className={cls.text}>{t("currency")}</span>
           </div>
           <ArrowRightSLineIcon />
-        </Link>
+        </Link> */}
       </div>
       <MobileDrawer open={langDrawer} onClose={handleCloseLangDrawer}>
         <LanguagePopover onClose={handleCloseLangDrawer} />
