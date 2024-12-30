@@ -1,13 +1,13 @@
 .container {
 
     background-color: var(--secondary-bg);
-    display: flex; /* Allows for flexible layouts */
-    flex-direction: column; /* Ensures content stacks vertically */
-    align-items: center; /* Centers content horizontally */
-    justify-content: flex-start; /* Ensures content grows from the top */
-    padding: 20px; /* Adds space around the content */
-    width: 100%; /* Ensures it spans the full width */
-    box-sizing: border-box; /* Includes padding in size calculations */
+    // display: flex; /* Allows for flexible layouts */
+    // flex-direction: column; /* Ensures content stacks vertically */
+    // align-items: center; /* Centers content horizontally */
+    // justify-content: flex-start; /* Ensures content grows from the top */
+    // padding: 20px; /* Adds space around the content */
+    // width: 100%; /* Ensures it spans the full width */
+    // box-sizing: border-box; /* Includes padding in size calculations */
 
 
 
@@ -84,12 +84,12 @@
   .number {
     z-index: 2;
     font-weight: 500;
-    font-size: 40px;
-    line-height: 40px;
+    font-size: 28px;
+    line-height: 20px;
     letter-spacing: -0.03em;
 
     @media (max-width: 576px) {
-      font-size: 42px;
+      font-size: 26px;
       line-height: 52px;
     }
   }
@@ -99,13 +99,13 @@
     width: 75%;
     margin: 0;
     font-weight: 500;
-    font-size: 30px;
+    font-size: 26px;
     line-height: 30px;
     letter-spacing: -0.03em;
 
     @media (max-width: 576px) {
-      font-size: 42px;
-      line-height: 52px;
+      font-size: 24px;
+      line-height: 26px;
     }
   }
 
@@ -116,7 +116,7 @@
     margin: 0;
     font-weight: 500;
     font-size: 16px;
-    line-height: 30px;
+    line-height: 26px;
     letter-spacing: -0.03em;
 
     @media (max-width: 768px) {
