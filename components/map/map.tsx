@@ -95,10 +95,11 @@ export default function Map({
 
   function autoComplete(map: any, maps: any) {
     if (inputRef) {
-      autoCompleteRef.current = new maps.places.Autocomplete(
-        inputRef.current,
-        options
-      );
+      autoCompleteRef.current = new maps.places.Autocomplete(inputRef.current, {
+        ...options,
+        componentRestrictions: { country: "dk" }, // Restrict to Denmark
+      });
+  
       autoCompleteRef.current.addListener("place_changed", async function () {
         const place = await autoCompleteRef.current.getPlace();
         const address = handleGooglePlacesPress(place);
