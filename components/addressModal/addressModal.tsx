@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ModalContainer from "containers/modal/modal";
 import { DialogProps, Grid } from "@mui/material";
 import { useTranslation } from "react-i18next";
@@ -50,15 +50,43 @@ export default function AddressModal({
   const { t } = useTranslation();
   const { user } = useAuth();
   const { updateAddress, updateLocation, location_id, updateLocationId } =
-    useSettings();
+  useSettings();
+  const [resolvedAddress, setResolvedAddress] = useState(address || "");
   const [location, setLocation] = useState({
     lat: Number(latlng.split(",")[0]),
     lng: Number(latlng.split(",")[1]),
   });
   const inputRef = useRef<any>();
+
+  const addr =  getAddressFromLocation(
+    `${location.lat},${location.lng}`
+  );
+  
+  useEffect(() => {
+    async function fetchAddress() {
+      try {
+        const addr = await getAddressFromLocation(`${location.lat},${location.lng}`);
+      setResolvedAddress(addr);
+    } catch (err) {
+      console.error("Error fetching address:", err);
+      error(t("unable.to.fetch.address"));
+    }
+  }
+  fetchAddress();
+}, [location]);
+
+
+console.log("test", resolvedAddress);
+const addressParts = resolvedAddress.split(",");
+  const filter = addressParts[addressParts.length - 2]?.trim() || "";
+  const extracted = filter.split(" ");
+
+  console.log("extracted:",extracted[0]);
+  
+
   const { isSuccess } = useQuery(["shopZones", location], () =>
     shopService.checkZone({
-      address: { latitude: location.lat, longitude: location.lng },
+      address: { latitude: location.lat, longitude: location.lng, zip_code: extracted[0] },
     }),
   );
 

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { useInfiniteQuery, useQuery } from "react-query";
 import { useTranslation } from "react-i18next";
@@ -11,6 +11,7 @@ import storyService from "services/story";
 import bannerService from "services/banner";
 import useUserLocation from "hooks/useUserLocation";
 import qs from "qs";
+import { getAddressFromLocation } from "utils/getAddressFromLocation";
 
 const Empty = dynamic(() => import("components/empty/empty"));
 const Loader = dynamic(() => import("components/loader/loader"));
@@ -22,13 +23,9 @@ const StoreList = dynamic(() => import("containers/storeList/storeList"));
 const ZoneNotFound = dynamic(
   () => import("components/zoneNotFound/zoneNotFound")
 );
-const NewsContainer = dynamic(
-  () => import("containers/newsContainer/newsContainer")
-);
+const NewsContainer = dynamic(() => import("containers/newsContainer/newsContainer"));
 const ShopList = dynamic(() => import("containers/shopList/shopList"));
-const ShopCategoryList = dynamic(
-  () => import("containers/shopCategoryList/v1")
-);
+const ShopCategoryList = dynamic(() => import("containers/shopCategoryList/v1"));
 const AdList = dynamic(() => import("containers/adList/v1"));
 const BrandShopList = dynamic(() => import("containers/brandShopList/v1"));
 
@@ -39,15 +36,16 @@ export default function Homev1() {
   const locale = i18n.language;
   const isDesktop = useMediaQuery("(min-width:1140px)");
   const loader = useRef(null);
-  const { category_id, newest, order_by, group } =
-    useAppSelector(selectShopFilter);
+  const { category_id, newest, order_by, group } = useAppSelector(selectShopFilter);
   const isFilterActive = !!Object.keys(group).length;
   const location = useUserLocation();
+  const [address, setAddress] = useState<string>("");
 
   const { data: shopCategoryList, isLoading: shopCategoryLoading } = useQuery(
     ["shopcategory", locale],
     () => categoryService.getAllShopCategories({ perPage: 20 })
   );
+
   const { data: stories, isLoading: isStoriesLoading } = useQuery(
     ["stories", locale],
     () => storyService.getAll()
@@ -60,10 +58,8 @@ export default function Homev1() {
 
   const { isSuccess: isInsideZone, isLoading: isZoneLoading } = useQuery(
     ["shopZones", location],
-    () =>
-      shopService.checkZone({
-        address: location,
-      })
+    () => shopService.checkZone({ address: location }),
+    { enabled: !!location }
   );
 
   const { data: shops, isLoading: isShopLoading } = useQuery(
@@ -75,9 +71,17 @@ export default function Homev1() {
           address: location,
           open: 1,
         })
-      )
+      ),
+    { enabled: !!location }
   );
+  
+  const addressParts = address.split(",");
+  const filter = addressParts[addressParts.length - 2]?.trim() || "";
+  const extracted = filter.split(" ");
 
+  console.log(extracted[0]);
+
+  // Fetch address before triggering getAllRestaurants query
   const {
     data,
     error,
@@ -86,10 +90,14 @@ export default function Homev1() {
     isFetchingNextPage,
     isLoading,
   } = useInfiniteQuery(
-    ["restaurants", category_id, locale, order_by, group, location, newest],
-    ({ pageParam = 1 }) =>
-      shopService.getAllRestaurants(
+    ["restaurants", category_id, locale, order_by, group, location, newest, address],
+    ({ pageParam = 1 }) => {
+      // Ensure address is fetched before this API call
+      if (!address) return; // Prevent API call if address is not fetched
+
+      return shopService.getAllRestaurants(
         qs.stringify({
+          zip_code: extracted[0],
           page: pageParam,
           perPage: PER_PAGE,
           category_id: category_id || undefined,
@@ -102,7 +110,8 @@ export default function Homev1() {
           open: Number(group.open) || undefined,
           deals: group.deals,
         })
-      ),
+      );
+    },
     {
       getNextPageParam: (lastPage: any) => {
         if (lastPage.meta.current_page < lastPage.meta.last_page) {
@@ -110,25 +119,32 @@ export default function Homev1() {
         }
         return undefined;
       },
+      enabled: !!location && !!address, // Only enable once address is available
     }
   );
-  const restaurants = data?.pages?.flatMap((item) => item.data) || [];
+
+  const restaurants = data?.pages?.flatMap((item) => item?.data || []) || [];
+
 
   const { data: recommendedShops, isLoading: recommendedLoading } = useQuery(
     ["recommendedShops", locale, location],
-    () => shopService.getRecommended({ address: location })
+    () => shopService.getRecommended({ address: location }),
+    { enabled: !!location }
   );
 
   const { data: ads, isLoading: adListLoading } = useQuery(
     ["ads", locale, location],
-    () => bannerService.getAllAds({ perPage: 6, address: location })
+    () => bannerService.getAllAds({ perPage: 6, address: location }),
+    { enabled: !!location }
   );
 
   const { data: brandShops, isLoading: brandShopLoading } = useQuery(
     ["brandshops", locale, location],
     () =>
-      shopService.getAllShops(qs.stringify({ verify: "1", address: location }))
+      shopService.getAllShops(qs.stringify({ verify: "1", address: location })),
+    { enabled: !!location }
   );
+
   const handleObserver = useCallback(
     (entries: any) => {
       const target = entries[0];
@@ -140,17 +156,34 @@ export default function Homev1() {
   );
 
   useEffect(() => {
-    const option = {
+    if (location?.latitude && location?.longitude) {
+      const fetchAddress = async () => {
+        try {
+          const addr = await getAddressFromLocation(
+            `${location.latitude},${location.longitude}`
+          );
+          setAddress(addr || "Unknown Address");
+        } catch (error) {
+          console.error("Failed to fetch address", error);
+          setAddress("Unknown Address");
+        }
+      };
+      fetchAddress();
+    }
+
+    const observerOptions = {
       root: null,
       rootMargin: "20px",
       threshold: 0,
     };
-    const observer = new IntersectionObserver(handleObserver, option);
+    const observer = new IntersectionObserver(handleObserver, observerOptions);
     if (loader.current) observer.observe(loader.current);
-  }, [handleObserver, hasNextPage, fetchNextPage]);
+
+    return () => observer.disconnect(); // Clean up observer
+  }, [handleObserver, location]);
 
   if (error) {
-    console.log("error => ", error);
+    console.error("Error:", error);
   }
 
   return (
@@ -187,7 +220,6 @@ export default function Homev1() {
         />
         {isFetchingNextPage && <Loader />}
         <div ref={loader} />
-
         {!isInsideZone && !isZoneLoading && <ZoneNotFound />}
         {!restaurants.length && !isLoading && isInsideZone && (
           <Empty text={t("no.restaurants")} />

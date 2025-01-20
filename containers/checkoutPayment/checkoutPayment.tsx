@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import PrimaryButton from "components/button/primaryButton";
 import BankCardLineIcon from "remixicon-react/BankCardLineIcon";
 import Coupon3LineIcon from "remixicon-react/Coupon3LineIcon";
@@ -25,6 +25,7 @@ import { selectCurrency } from "redux/slices/currency";
 import { useSettings } from "contexts/settings/settings.context";
 import TipWithoutPayment from "components/tip/tipWithoutPayment";
 import ModalContainer from "../modal/modal";
+import { getAddressFromLocation } from "utils/getAddressFromLocation";
 
 const DrawerContainer = dynamic(() => import("containers/drawer/drawer"));
 const MobileDrawer = dynamic(() => import("containers/drawer/mobileDrawer"));
@@ -77,6 +78,38 @@ export default function CheckoutPayment({
   const { coupon, location, delivery_type, payment_type, tips } = formik.values;
   const { settings } = useSettings();
 
+   // State to store the human-readable address
+   const [addresss, setAddress] = useState<string>("");
+   useEffect(()=>{
+    if (location?.latitude && location?.longitude) {
+      const fetchAddress = async () => {
+        try {
+          const addr = await getAddressFromLocation(
+            `${location.latitude},${location.longitude}`
+          );
+          setAddress(addr || "Unknown Address");
+        } catch (error) {
+          console.error("Failed to fetch address", error);
+          setAddress("Unknown Address");
+        }
+      };
+      fetchAddress();
+    }
+   },[location]);
+
+   // Fetch the human-readable address
+  
+  //  const payload = useMemo(
+  //    () => ({
+  //      addresss, // Use the fetched address
+  //      type: delivery_type,
+  //      coupon,
+  //      currency_id: currency?.id,
+  //      tips: tips,
+  //    }),
+  //    [addresss, delivery_type, coupon, currency, tips],
+  //  );
+
   const payload = useMemo(
     () => ({
       address: location,
@@ -87,12 +120,31 @@ export default function CheckoutPayment({
     }),
     [location, delivery_type, coupon, currency, tips],
   );
+  // console.log(addresss);
 
   const { isLoading } = useQuery(
     ["calculate", payload, cart],
-    () => orderService.calculate(cart.id, payload),
+    async () => {
+      const add= addresss.split(",")
+      const filter= add[add.length -2].trim();
+      const extract= filter.split(" ");
+
+      const zipcode = extract[0];
+      // console.log("zipcode",zipcode);
+      
+
+      const dynamicPayload = {
+        ...payload,
+        zipcode: zipcode, // Dynamically add the address here
+      };
+      console.log("dynamic",dynamicPayload);
+      
+      return orderService.calculate(cart.id, dynamicPayload);
+    },
     {
       onSuccess: (data) => {
+        console.log("check Data",data);
+        
         setOrder(data.data);
         setCalculateError(false);
       },
@@ -102,7 +154,7 @@ export default function CheckoutPayment({
       },
       staleTime: 0,
       enabled: !!cart.id,
-    },
+    }
   );
 
   function handleOrderCreate() {
