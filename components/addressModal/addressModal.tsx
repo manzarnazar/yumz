@@ -80,13 +80,15 @@ console.log("test", resolvedAddress);
 const addressParts = resolvedAddress.split(",");
   const filter = addressParts[addressParts.length - 2]?.trim() || "";
   const extracted = filter.split(" ");
-
+  let cityExtracted = extracted.length == 1 ? extracted?.[0] : extracted?.[1];
+  console.log("testsss",cityExtracted);
+  
   console.log("extracted:",extracted[0]);
   
 
   const { isSuccess } = useQuery(["shopZones", location], () =>
     shopService.checkZone({
-      address: { latitude: location.lat, longitude: location.lng, zip_code: extracted[0] },
+      address: { latitude: location.lat, longitude: location.lng, zip_code: extracted[0],city:cityExtracted },
     }),
   );
 

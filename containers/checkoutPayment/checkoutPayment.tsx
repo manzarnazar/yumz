@@ -77,10 +77,13 @@ export default function CheckoutPayment({
   const [calculateError, setCalculateError] = useState<null | boolean>(null);
   const { coupon, location, delivery_type, payment_type, tips } = formik.values;
   const { settings } = useSettings();
+  const [zipcode, setZipcode] = useState<string | null>(null);
+  const [city, setCity] = useState<string | null>(null);
+
 
    // State to store the human-readable address
    const [addresss, setAddress] = useState<string>("");
-   useEffect(()=>{
+   useEffect(() => {
     if (location?.latitude && location?.longitude) {
       const fetchAddress = async () => {
         try {
@@ -88,28 +91,32 @@ export default function CheckoutPayment({
             `${location.latitude},${location.longitude}`
           );
           setAddress(addr || "Unknown Address");
+  
+          // Extract zipcode once address is fetched
+          const add = addr?.split(",");
+          if (add?.length > 1) {
+            const filter = add[add.length - 2]?.trim();
+            
+            const extract = filter?.split(" ");
+            let cityExtracted = extract.length == 1 ? extract?.[0] : extract?.[1];
+
+            console.log("length check",extract.length);
+            console.log("length check",cityExtracted);
+
+            setCity(cityExtracted);
+
+            const extractedZipcode = extract?.[0] || "";
+            setZipcode(extractedZipcode);  // Update zipcode here
+          }
         } catch (error) {
           console.error("Failed to fetch address", error);
           setAddress("Unknown Address");
+          setZipcode(null); // Reset zipcode in case of error
         }
       };
       fetchAddress();
     }
-   },[location]);
-
-   // Fetch the human-readable address
-  
-  //  const payload = useMemo(
-  //    () => ({
-  //      addresss, // Use the fetched address
-  //      type: delivery_type,
-  //      coupon,
-  //      currency_id: currency?.id,
-  //      tips: tips,
-  //    }),
-  //    [addresss, delivery_type, coupon, currency, tips],
-  //  );
-
+  }, [location]);
   const payload = useMemo(
     () => ({
       address: location,
@@ -125,27 +132,25 @@ export default function CheckoutPayment({
   const { isLoading } = useQuery(
     ["calculate", payload, cart],
     async () => {
-      const add= addresss.split(",")
-      const filter= add[add.length -2].trim();
-      const extract= filter.split(" ");
-
-      const zipcode = extract[0];
-      // console.log("zipcode",zipcode);
-      
-
+      if (!zipcode) {
+        // Prevent calculation if zipcode is not available
+        warning("Please fill the zipcode first before calculating.");
+        return;  // Return early to avoid triggering calculate without zipcode
+      }
+  
       const dynamicPayload = {
         ...payload,
-        zipcode: zipcode, // Dynamically add the address here
+        zipcode: zipcode,  // Add the valid zipcode here
+        city: city,  // Add the valid zipcode here
       };
-      console.log("dynamic",dynamicPayload);
-      
+      console.log("dynamic", dynamicPayload);
+  
       return orderService.calculate(cart.id, dynamicPayload);
     },
     {
       onSuccess: (data) => {
-        console.log("check Data",data);
-        
-        setOrder(data.data);
+        console.log("check Data", data);
+        setOrder(data!.data);
         setCalculateError(false);
       },
       onError: (err: any) => {
@@ -153,7 +158,7 @@ export default function CheckoutPayment({
         error(err.data?.message);
       },
       staleTime: 0,
-      enabled: !!cart.id,
+      enabled: !!cart.id && !!zipcode,  // Ensure the query only runs if zipcode is available
     }
   );
 

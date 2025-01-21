@@ -78,8 +78,9 @@ export default function Homev1() {
   const addressParts = address.split(",");
   const filter = addressParts[addressParts.length - 2]?.trim() || "";
   const extracted = filter.split(" ");
+  let cityExtracted = extracted.length == 1 ? extracted?.[0] : extracted?.[1];
 
-  console.log(extracted[0]);
+  console.log(extracted[0],"check",cityExtracted);
 
   // Fetch address before triggering getAllRestaurants query
   const {
@@ -98,6 +99,7 @@ export default function Homev1() {
       return shopService.getAllRestaurants(
         qs.stringify({
           zip_code: extracted[0],
+          city: cityExtracted,
           page: pageParam,
           perPage: PER_PAGE,
           category_id: category_id || undefined,
