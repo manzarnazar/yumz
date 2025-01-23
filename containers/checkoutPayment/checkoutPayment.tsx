@@ -269,12 +269,12 @@ export default function CheckoutPayment({
               <Price number={order.delivery_fee} />
             </div>
           </div>
-          <div className={cls.row}>
+          {/* <div className={cls.row}>
             <div className={cls.item}>{t("total.tax")}</div>
             <div className={cls.item}>
               <Price number={order.total_tax} />
             </div>
-          </div>
+          </div> */}
           <div className={cls.row}>
             <div className={cls.item}>{t("discount")}</div>
             <div className={cls.item}>

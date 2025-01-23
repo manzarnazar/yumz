@@ -127,6 +127,8 @@ export default function Homev1() {
 
   const restaurants = data?.pages?.flatMap((item) => item?.data || []) || [];
 
+  console.log("dataaaaaa a", data);
+  
 
   const { data: recommendedShops, isLoading: recommendedLoading } = useQuery(
     ["recommendedShops", locale, location],
