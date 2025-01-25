@@ -116,7 +116,7 @@ export default function CheckoutPayment({
       };
       fetchAddress();
     }
-  }, [location]);
+  }, [location,zipcode,city]);
   const payload = useMemo(
     () => ({
       address: location,
@@ -130,7 +130,7 @@ export default function CheckoutPayment({
   // console.log(addresss);
 
   const { isLoading } = useQuery(
-    ["calculate", payload, cart],
+    ["calculate", payload, cart,zipcode,city],
     async () => {
       if (!zipcode) {
         // Prevent calculation if zipcode is not available

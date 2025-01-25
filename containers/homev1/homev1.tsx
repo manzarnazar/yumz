@@ -55,18 +55,26 @@ export default function Homev1() {
     ["banners", locale],
     () => bannerService.getAll()
   );
+  const addressParts = address.split(",");
+  const filter = addressParts[addressParts.length - 2]?.trim() || "";
+  const extracted = filter.split(" ");
+  let cityExtracted = extracted.length == 1 ? extracted?.[0] : extracted?.[1];
+
+  console.log(extracted[0],"check",cityExtracted);
 
   const { isSuccess: isInsideZone, isLoading: isZoneLoading } = useQuery(
-    ["shopZones", location],
-    () => shopService.checkZone({ address: location }),
+    ["shopZones", location,cityExtracted,extracted[0]],
+    () => shopService.checkZone({ address: location, zip_code: extracted[0],city:cityExtracted  }),
     { enabled: !!location }
   );
 
   const { data: shops, isLoading: isShopLoading } = useQuery(
-    ["shops", location, locale],
+    ["shops", location, locale, cityExtracted,extracted[0]],
     () =>
       shopService.getAllShops(
         qs.stringify({
+          zip_code: extracted[0],
+          city: cityExtracted,
           perPage: PER_PAGE,
           address: location,
           open: 1,
@@ -75,12 +83,7 @@ export default function Homev1() {
     { enabled: !!location }
   );
   
-  const addressParts = address.split(",");
-  const filter = addressParts[addressParts.length - 2]?.trim() || "";
-  const extracted = filter.split(" ");
-  let cityExtracted = extracted.length == 1 ? extracted?.[0] : extracted?.[1];
-
-  console.log(extracted[0],"check",cityExtracted);
+ 
 
   // Fetch address before triggering getAllRestaurants query
   const {
@@ -91,7 +94,7 @@ export default function Homev1() {
     isFetchingNextPage,
     isLoading,
   } = useInfiniteQuery(
-    ["restaurants", category_id, locale, order_by, group, location, newest, address],
+    ["restaurants", category_id, locale, order_by, group, location, newest, address,cityExtracted,extracted[0]],
     ({ pageParam = 1 }) => {
       // Ensure address is fetched before this API call
       if (!address) return; // Prevent API call if address is not fetched
@@ -208,7 +211,7 @@ export default function Homev1() {
         loading={isShopLoading}
       />
       <AdList data={ads?.data} loading={adListLoading} />
-      <BrandShopList data={brandShops?.data || []} loading={brandShopLoading} />
+      {/* <BrandShopList data={brandShops?.data || []} loading={brandShopLoading} /> */}
       <div style={{ minHeight: "60vh" }}>
         {!category_id && !newest && !isFilterActive && isInsideZone && (
           <FeaturedShopsContainer
@@ -224,10 +227,10 @@ export default function Homev1() {
         />
         {isFetchingNextPage && <Loader />}
         <div ref={loader} />
-        {!isInsideZone && !isZoneLoading && <ZoneNotFound />}
+        {/* {!isInsideZone && !isZoneLoading && <ZoneNotFound />}
         {!restaurants.length && !isLoading && isInsideZone && (
           <Empty text={t("no.restaurants")} />
-        )}
+        )} */}
       </div>
       <NewsContainer />
     </>

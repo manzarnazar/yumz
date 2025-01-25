@@ -86,11 +86,13 @@ const addressParts = resolvedAddress.split(",");
   console.log("extracted:",extracted[0]);
   
 
-  const { isSuccess } = useQuery(["shopZones", location], () =>
+  const { isSuccess } = useQuery(["shopZones", location,extracted[0],cityExtracted ], () =>
     shopService.checkZone({
       address: { latitude: location.lat, longitude: location.lng, zip_code: extracted[0],city:cityExtracted },
     }),
   );
+  console.log();
+  
 
   const queryClient = useQueryClient();
   const { mutate: createAddress, isLoading: createLoading } = useMutation({

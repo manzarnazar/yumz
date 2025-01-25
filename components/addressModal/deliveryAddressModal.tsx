@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ModalContainer from "containers/modal/modal";
 import { DialogProps } from "@mui/material";
 import { useTranslation } from "react-i18next";
@@ -19,7 +19,8 @@ import { IAddress } from "interfaces/address.interface";
 import { Swiper, SwiperSlide } from "swiper/react";
 import AddressCard from "./addressCard";
 import { useAuth } from "contexts/auth/auth.context";
-import { warning } from "../alert/toast";
+import { error, warning } from "../alert/toast";
+
 
 interface Props<T> extends DialogProps {
   address: string;
@@ -44,6 +45,7 @@ export default function DeliveryAddressModal<T>({
 }: Props<T>) {
   const { t } = useTranslation();
   const [selectedAddress, setSelectedAddress] = useState<IAddress | null>(null);
+    const [resolvedAddress, setResolvedAddress] = useState(address || "");
   const [location, setLocation] = useState({
     lat: Number(latlng.latitude),
     lng: Number(latlng.longitude),
@@ -61,11 +63,32 @@ export default function DeliveryAddressModal<T>({
     },
   );
 
+   useEffect(() => {
+      async function fetchAddress() {
+        try {
+          const addr = await getAddressFromLocation(`${location.lat},${location.lng}`);
+        setResolvedAddress(addr);
+      } catch (err) {
+        console.error("Error fetching address:", err);
+        error(t("unable.to.fetch.address"));
+      }
+    }
+    fetchAddress();
+  }, [location]);
+
+  const addressParts = resolvedAddress.split(",");
+  const filter = addressParts[addressParts.length - 2]?.trim() || "";
+  const extracted = filter.split(" ");
+  let cityExtracted = extracted.length == 1 ? extracted?.[0] : extracted?.[1];
+  console.log("testsss",cityExtracted);
+  
+  console.log("extracted:",extracted[0]);
+
   const { isSuccess } = useQuery(
-    ["shopZone", location],
+    ["shopZones", location,extracted[0],cityExtracted],
     () =>
       shopService.checkZoneById(shopId, {
-        address: { latitude: location.lat, longitude: location.lng },
+        address: { latitude: location.lat, longitude: location.lng, zip_code: extracted[0],city:cityExtracted },
       }),
     {
       enabled: checkZone,
