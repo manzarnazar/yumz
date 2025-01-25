@@ -149,18 +149,18 @@ export default function ShopHeader({ data }: Props) {
                 </span>
               </p>
             </div>
-            <div className={cls.dot} />
-            <div className={cls.item}>
-              <CouponLineIcon />
-              <p className={cls.text}>
+            {/* <div className={cls.dot} />
+            <div className={cls.item}> */}
+              {/* <CouponLineIcon /> */}
+              {/* <p className={cls.text}>
                 <span>{t("delivery")} — </span>
                 <span className={cls.bold}>
                   <Price
                     number={Number(data?.price) * Number(currency?.rate)}
                   />
                 </span>
-              </p>
-            </div>
+              </p> */}
+            {/* </div> */}
           </div>
           {isGroupOrderActive && (
             <div className={cls.actions}>
