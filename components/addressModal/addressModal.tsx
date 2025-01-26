@@ -270,7 +270,7 @@ const addressParts = resolvedAddress.split(",");
         </div>
         <div className={cls.form}>
           <Grid container spacing={2}>
-            <Grid item xs={12}>
+            {/* <Grid item xs={12}>
               <TextInput
                 name="title"
                 label={t("title")}
@@ -326,7 +326,7 @@ const addressParts = resolvedAddress.split(",");
                   {t("delete.address")}
                 </SecondaryButton>
               </Grid>
-            )}
+            )} */}
             <Grid
               item
               xs={

@@ -106,19 +106,19 @@ export default function WelcomeHero({ data, stats }: Props) {
                 </button>
               </div>
               <div className={cls.stats}>
-                <div className={cls.item}>
+                {/* <div className={cls.item}>
                   <span className={cls.number}>
                     {roundToHundreds(stats?.users)}+
                   </span>
                   <span className={cls.text}>{t("people.trust.us")}</span>
-                </div>
+                </div> */}
                 <div className={cls.item}>
-                  <span className={cls.number}>
+                  {/* <span className={cls.number}>
                     {getShorterNumber(roundToHundreds(stats?.orders))}+
                   </span>
                   <span className={cls.text}>
                     {t("delivery.was.successfull")}
-                  </span>
+                  </span> */}
                 </div>
               </div>
             </div>

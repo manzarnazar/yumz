@@ -130,7 +130,7 @@ export default function Homev1() {
 
   const restaurants = data?.pages?.flatMap((item) => item?.data || []) || [];
 
-  console.log("dataaaaaa a", data);
+  console.log("dataaaaaa a", restaurants);
   
 
   const { data: recommendedShops, isLoading: recommendedLoading } = useQuery(
@@ -227,10 +227,12 @@ export default function Homev1() {
         />
         {isFetchingNextPage && <Loader />}
         <div ref={loader} />
-        {/* {!isInsideZone && !isZoneLoading && <ZoneNotFound />}
-        {!restaurants.length && !isLoading && isInsideZone && (
-          <Empty text={t("no.restaurants")} />
-        )} */}
+        {/* {!isInsideZone && !isZoneLoading && <ZoneNotFound />} */}
+
+        {}
+        {!restaurants.length && (
+          <ZoneNotFound />
+        )}
       </div>
       <NewsContainer />
     </>

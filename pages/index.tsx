@@ -22,17 +22,17 @@ type Props = {
 
 export default function Welcome({ isAuthenticated }: Props) {
 
-  const {address} = useSettings();
-  const { push } = useRouter();
+  // const {address} = useSettings();
+  // const { push } = useRouter();
     
-        console.log("cart",address);
+  //       console.log("cart",address);
 
-        if (address) {
-    if (typeof window !== "undefined") {
-      push("/home");
-    }
-    return null
-  }
+  //       if (address) {
+  //   if (typeof window !== "undefined") {
+  //     push("/home");
+  //   }
+  //   return null
+  // }
 
 
 
@@ -73,14 +73,14 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const isAuthenticated = authToken ? true : false; // Check if the user is authenticated
 
     // If authenticated, redirect to /home
-    if (isAuthenticated) {
-      return {
-        redirect: {
-          destination: "/home",  // Redirect to /home if authenticated
-          permanent: false,
-        },
-      };
-    }
+    // if (isAuthenticated) {
+    //   return {
+    //     redirect: {
+    //       destination: "/home",  // Redirect to /home if authenticated
+    //       permanent: false,
+    //     },
+    //   };
+    // }
 
     // Prefetch landing page data
     await queryClient.prefetchQuery(["landingPage", locale], () =>
