@@ -91,6 +91,7 @@ export interface IShop {
   discounts_count?: number;
   type?: "restaurant" | "shop";
   discount?: any;
+  shopDeliveryZipcode: ShopDeliveryZipCode[];
   reviews_count?: number;
   tags?: IShopTag[];
   open: boolean;
@@ -151,6 +152,12 @@ export interface ShopWorkingDays {
   disabled?: boolean;
 }
 
+export interface ShopDeliveryZipCode {
+  id: number;
+  zip_code: number;
+  city: string;
+  shop_id: string;
+}
 export interface Location {
   latitude: string;
   longitude: string;

@@ -237,30 +237,51 @@ const addressParts = resolvedAddress.split(",");
   return (
     <ModalContainer {...rest}>
       <div className={cls.wrapper}>
-        <div className={cls.header}>
-          <h1 className={cls.title}>{t("enter.delivery.address")}</h1>
-          <div className={cls.flex}>
-            <div className={cls.search}>
-              <label htmlFor="search">
-                <Search2LineIcon />
-              </label>
-              <input
-                type="text"
-                id="search"
-                name="search"
-                ref={inputRef}
-                placeholder={t("search")}
-                autoComplete="off"
-                defaultValue={address}
-              />
-            </div>
-            <div className={cls.btnWrapper}>
-              <DarkButton onClick={defineAddress}>
-                <CompassDiscoverLineIcon />
-              </DarkButton>
-            </div>
-          </div>
-        </div>
+      <div className={cls.header}>
+  <h1 className={cls.title}>{t("enter.delivery.address")}</h1>
+  <div className={cls.flex}>
+    {/* Adjust the order of elements to position buttons next to the search field */}
+    <div className={cls.search}>
+      <label htmlFor="search">
+        <Search2LineIcon />
+      </label>
+      <input
+        type="text"
+        id="search"
+        name="search"
+        ref={inputRef}
+        placeholder={t("search")}
+        autoComplete="off"
+        defaultValue={address}
+      />
+    </div>
+
+    {/* Move the GPS button here, shift it to the left */}
+    <div className={cls.gpsBtnWrapper}>
+      <DarkButton onClick={defineAddress}>
+        <CompassDiscoverLineIcon />
+      </DarkButton>
+    </div>
+
+    {/* Place submit button next to the search field */}
+    <div className={cls.submitBtnWrapper}>
+      <DarkButton
+        type="button"
+        loading={createLoading || updateLoading}
+        onClick={() => {
+          if (!inputRef.current?.value) {
+            return warning(t("enter.delivery.address"));
+          }
+          formik.submitForm();
+        }}
+        disabled={!isSuccess}
+      >
+        {t("submit") }
+      </DarkButton>
+    </div>
+  </div>
+</div>
+
         <div className={cls.body}>
           <Map
             location={location}
@@ -327,7 +348,7 @@ const addressParts = resolvedAddress.split(",");
                 </SecondaryButton>
               </Grid>
             )} */}
-            <Grid
+            {/* <Grid
               item
               xs={
                 !!editedAddress && location_id !== editedAddress.id.toString()
@@ -348,7 +369,7 @@ const addressParts = resolvedAddress.split(",");
               >
                 {isSuccess ? t("submit") : t("delivery.zone.not.available")}
               </DarkButton>
-            </Grid>
+            </Grid> */}
           </Grid>
         </div>
         <div className={cls.footer}>

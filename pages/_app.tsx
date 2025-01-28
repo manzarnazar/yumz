@@ -162,6 +162,8 @@ ExtendedApp.getInitialProps = async (appContext: any) => {
   const authState = getCookie("user", appContext.ctx);
   const settingsState = getCookie("settings", appContext.ctx);
   const defaultAddress = getCookie("address", appContext.ctx);
+  console.log(defaultAddress);
+  
   const locale = getLanguage(getCookie("locale", appContext.ctx));
   const uiType =
     uiTypes.find((type) => type === appContext.router.query?.v) || "1";
