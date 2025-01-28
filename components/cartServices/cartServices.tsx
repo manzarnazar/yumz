@@ -20,7 +20,7 @@ export default function CartServices({ data }: Props) {
   const cart = useAppSelector(selectUserCart);
   const { address } = useSettings(); // Access the address from the context
   const [price, setPrice] = useState('');
-  const [deliveryPrice, setDeliveryPrice] = useState("");
+  const [deliveryPrice, setDeliveryPrice] = useState(0);
 
   useEffect(() => {
     if (address) {
@@ -29,22 +29,24 @@ export default function CartServices({ data }: Props) {
         const filtered = add[add.length - 2]?.trim();
         const extract = filtered?.split(" ");
         const cityExtracted = extract?.length === 1 ? extract[0] : extract?.[1];
-
+  
+        // Use shopDeliveryZipcode
         const matchingCity = data.shop_delivery_zipcodes.find(
           (item) => item.city.toLowerCase() === cityExtracted?.toLowerCase()
         );
-        console.log(matchingCity);
-        
-        // console.log(data?.shop_delivery_zipcodes); set price baased on the zipcode this contains array of object 0
+  
+        console.log("take",matchingCity);
+  
         if (matchingCity) {
-          setDeliveryPrice(matchingCity.delivery_price);
+          setDeliveryPrice(Number(matchingCity.delivery_price || 0)); // Ensure it's a number
         } else {
-          setDeliveryPrice(""); // Default if no matching city
+          setDeliveryPrice(0); // Default if no matching city
         }
-        setPrice(cityExtracted || "");
+        // setPrice(cityExtracted  0);
       }
     }
-  },  [address, data?.shop_delivery_zipcodes]);
+  }, [address, data?.shop_delivery_zipcodes]);
+  
   
 console.log("deliveryPrice",deliveryPrice);
 
@@ -62,7 +64,7 @@ console.log("deliveryPrice",deliveryPrice);
           </div>
         </div>
         <div className={cls.price}>
-          <Price number={parseFloat(deliveryPrice || "0")} />
+          <Price number={deliveryPrice} />
         </div>
       </div>
 

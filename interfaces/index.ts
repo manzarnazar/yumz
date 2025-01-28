@@ -91,12 +91,21 @@ export interface IShop {
   discounts_count?: number;
   type?: "restaurant" | "shop";
   discount?: any;
-  shopDeliveryZipcode: ShopDeliveryZipCode[];
+  shop_delivery_zipcodes:ShopDeliveryPrice[];
+
+
   reviews_count?: number;
   tags?: IShopTag[];
   open: boolean;
   verify: Number;
   min_amount?: number;
+}
+export interface ShopDeliveryPrice  {
+  id: number;
+  zip_code: number;
+  delivery_price: number;
+  city: string;
+  shop_id: string;
 }
 
 export interface IBookingShop {
@@ -140,6 +149,8 @@ export interface ShopDeliveryTime {
   type: string;
 }
 
+
+
 export interface ShopClosedDate {
   id: number;
   day: string;
@@ -152,12 +163,7 @@ export interface ShopWorkingDays {
   disabled?: boolean;
 }
 
-export interface ShopDeliveryZipCode {
-  id: number;
-  zip_code: number;
-  city: string;
-  shop_id: string;
-}
+
 export interface Location {
   latitude: string;
   longitude: string;
