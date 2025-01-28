@@ -53,7 +53,7 @@ export default function ProtectedCartButton({}: Props) {
     }
   );
 
-  if (cartItems.length && cartIndicatorVisible) {
+  if (cartItems.length > 0) {
     return (
       <div className={cls.cartBtnWrapper}>
         <Link href={`/shop/${cart.shop_id}`} className={cls.cartBtn}>

@@ -84,8 +84,8 @@ export default function FooterMenu({}: Props) {
               )}
             </ul>
           </div>
-          {isAuthenticated ? <ProtectedCartButton /> : <CartButton />}
-        </div>
+          <ProtectedCartButton />
+          </div>
       </div>
       <ModalContainer open={openReservation} onClose={handleCloseReservation}>
         <ReservationFind handleClose={handleCloseReservation} />
