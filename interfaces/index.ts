@@ -91,7 +91,7 @@ export interface IShop {
   discounts_count?: number;
   type?: "restaurant" | "shop";
   discount?: any;
-  shop_delivery_zipcodes:ShopDeliveryPrice[];
+   shop_delivery_zipcodes:ShopDeliveryPrice[];
 
 
   reviews_count?: number;
@@ -107,7 +107,6 @@ export interface ShopDeliveryPrice  {
   city: string;
   shop_id: string;
 }
-
 export interface IBookingShop {
   id: number;
   translation: IShopTranslation;
@@ -149,8 +148,6 @@ export interface ShopDeliveryTime {
   type: string;
 }
 
-
-
 export interface ShopClosedDate {
   id: number;
   day: string;
@@ -162,7 +159,6 @@ export interface ShopWorkingDays {
   to: string;
   disabled?: boolean;
 }
-
 
 export interface Location {
   latitude: string;
