@@ -100,13 +100,7 @@ export interface IShop {
   verify: Number;
   min_amount?: number;
 }
-export interface ShopDeliveryPrice  {
-  id: number;
-  zip_code: number;
-  delivery_price: number;
-  city: string;
-  shop_id: string;
-}
+
 export interface IBookingShop {
   id: number;
   translation: IShopTranslation;
@@ -132,7 +126,15 @@ export interface IBookingShop {
   reviews_count?: number;
   tags?: IShopTag[];
   open: boolean;
+  shop_delivery_zipcodes:ShopDeliveryPrice[];
   verify: Number;
+}
+export interface ShopDeliveryPrice  {
+  id: number;
+  zip_code: number;
+  delivery_price: number;
+  city: string;
+  shop_id: string;
 }
 
 export interface Bonus {
