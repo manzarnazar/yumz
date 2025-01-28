@@ -31,11 +31,11 @@ export default function CartServices({ data }: Props) {
         const cityExtracted = extract?.length === 1 ? extract[0] : extract?.[1];
   
         // Use shopDeliveryZipcode
-        const matchingCity = data.shop_delivery_zipcodes.find(
+        const matchingCity = data?.shop_delivery_zipcodes?.find(
           (item) => item.city.toLowerCase() === cityExtracted?.toLowerCase()
         );
   
-        console.log("take",matchingCity);
+        // console.log("take",matchingCity);
   
         if (matchingCity) {
           setDeliveryPrice(Number(matchingCity.delivery_price || 0)); // Ensure it's a number
@@ -48,7 +48,7 @@ export default function CartServices({ data }: Props) {
   }, [address, data?.shop_delivery_zipcodes]);
   
   
-console.log("deliveryPrice",deliveryPrice);
+// console.log("deliveryPrice",deliveryPrice);
 
   return (
     <div className={cls.wrapper}>

@@ -91,7 +91,7 @@ export interface IShop {
   discounts_count?: number;
   type?: "restaurant" | "shop";
   discount?: any;
-   shop_delivery_zipcodes:ShopDeliveryPrice[];
+   shop_delivery_zipcodes?:ShopDeliveryPrice[];
 
 
   reviews_count?: number;
@@ -126,7 +126,7 @@ export interface IBookingShop {
   reviews_count?: number;
   tags?: IShopTag[];
   open: boolean;
-  shop_delivery_zipcodes:ShopDeliveryPrice[];
+  shop_delivery_zipcodes?:ShopDeliveryPrice[];
   verify: Number;
 }
 export interface ShopDeliveryPrice  {
