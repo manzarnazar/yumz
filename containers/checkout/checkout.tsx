@@ -71,6 +71,13 @@ export default function CheckoutContainer({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [payments]);
 
+  const add = address?.split(",");
+  const filter = add[add.length - 2]?.trim();
+
+  const extract = filter?.split(" ");
+            let cityExtracted = extract.length == 1 ? extract?.[0] : extract?.[1];
+
+
   const formik = useFormik({
     initialValues: {
       coupon: undefined,
@@ -150,6 +157,7 @@ export default function CheckoutContainer({
             : undefined,
         note: values?.note && values?.note?.length ? values?.note : undefined,
         notes,
+        city: cityExtracted,
         tips: values?.tips,
       };
       if (EXTERNAL_PAYMENTS.includes(formik.values.payment_type?.tag || "")) {
