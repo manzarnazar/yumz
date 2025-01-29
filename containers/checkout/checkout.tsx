@@ -47,7 +47,8 @@ export default function CheckoutContainer({
   const queryClient = useQueryClient();
   const [payFastUrl, setPayFastUrl] = useState("");
   const [payFastWebHookWaiting, setPayFastWebHookWaiting] = useState(false);
-
+   const [zipcode, setZipcode] = useState<string | null>(null);
+    const [city, setCity] = useState<string | null>(null);
   const isUsingCustomPhoneSignIn =
     process.env.NEXT_PUBLIC_CUSTOM_PHONE_SINGUP === "true";
 
@@ -68,8 +69,23 @@ export default function CheckoutContainer({
     if (paymentType) {
       formik.setFieldValue("payment_type", paymentType);
     }
+    const add = address?.split(",");
+          if (add?.length > 1) {
+            const filter = add[add.length - 2]?.trim();
+            
+            const extract = filter?.split(" ");
+            let cityExtracted = extract.length == 1 ? extract?.[0] : extract?.[1];
+
+            console.log("length check",extract.length);
+            console.log("length check",cityExtracted);
+
+            setCity(cityExtracted);
+
+            const extractedZipcode = extract?.[0] || "";
+            setZipcode(extractedZipcode);  // Update zipcode here
+          }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [payments]);
+  }, [payments,address,zipcode,city]);
 
   const formik = useFormik({
     initialValues: {
@@ -150,8 +166,12 @@ export default function CheckoutContainer({
             : undefined,
         note: values?.note && values?.note?.length ? values?.note : undefined,
         notes,
+        city: city,
+        zip_code:zipcode,
         tips: values?.tips,
       };
+      console.log("payload",payload);
+      
       if (EXTERNAL_PAYMENTS.includes(formik.values.payment_type?.tag || "")) {
         externalPay({
           name: formik.values.payment_type?.tag,
@@ -167,9 +187,11 @@ export default function CheckoutContainer({
     },
   });
 
+
   const { isLoading, mutate: createOrder } = useMutation({
     mutationFn: (data: any) => orderService.create(data),
     onSuccess: (data) => {
+      
       queryClient.invalidateQueries(["profile"], { exact: false });
       queryClient.invalidateQueries(["cart"], { exact: false });
       replace(`/orders/${data.data.id}`);
