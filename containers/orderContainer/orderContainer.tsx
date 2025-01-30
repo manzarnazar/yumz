@@ -13,6 +13,7 @@ type Props = {
 
 export default function OrderContainer({ data, loading }: Props) {
   const isDesktop = useMediaQuery("(min-width:1140px)");
+console.log(data);
 
   return (
     <div className={cls.root}>

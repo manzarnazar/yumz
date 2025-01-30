@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import cls from "./cart.module.scss";
 import CartServices from "components/cartServices/cartServices";
 import CartTotal from "components/cartTotal/cartTotal";
@@ -16,6 +16,7 @@ import {
   updateUserCart,
 } from "redux/slices/userCart";
 import { selectCurrency } from "redux/slices/currency";
+import { useSettings } from "contexts/settings/settings.context";
 
 type Props = {
   shop: IShop;
@@ -39,6 +40,35 @@ export default function ProtectedCart({ shop }: Props) {
       staleTime: 0,
     }
   );
+
+const { address } = useSettings(); // Access the address from the context
+    const [price, setPrice] = useState('');
+    const [deliveryPrice, setDeliveryPrice] = useState(0);
+  
+    useEffect(() => {
+      if (address) {
+        const add = address.split(",");
+        if (add.length > 1) {
+          const filtered = add[add.length - 2]?.trim();
+          const extract = filtered?.split(" ");
+          const cityExtracted = extract?.length === 1 ? extract[0] : extract?.[1];
+    
+          // Use shopDeliveryZipcode
+          const matchingCity = shop?.shop_delivery_zipcodes?.find(
+            (item) => item.city.toLowerCase() === cityExtracted?.toLowerCase()
+          );
+    
+          // console.log("take",matchingCity);
+    
+          if (matchingCity) {
+            setDeliveryPrice(Number(matchingCity.delivery_price || 0)); // Ensure it's a number
+          } else {
+            setDeliveryPrice(0); // Default if no matching city
+          }
+          // setPrice(cityExtracted  0);
+        }
+      }
+    }, [address, shop?.shop_delivery_zipcodes]);
 
   return (
     <div className={cls.wrapper}>
@@ -66,7 +96,7 @@ export default function ProtectedCart({ shop }: Props) {
         )}
       </div>
       {!isEmpty && <CartServices data={shop} />}
-      {!isEmpty && <CartTotal totalPrice={cart.total_price} data={shop} />}
+      {!isEmpty && <CartTotal totalPrice={cart.total_price+deliveryPrice} data={shop} />}
       {isLoading && <Loading />}
     </div>
   );

@@ -60,7 +60,7 @@ export default function CartServices({ data }: Props) {
           </div>
           <div className={cls.row}>
             <h5 className={cls.title}>{t("delivery.price")}</h5>
-            <p className={cls.text}>{t("start.price")}</p>
+
           </div>
         </div>
         <div className={cls.price}>

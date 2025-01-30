@@ -57,7 +57,7 @@ export default function OrderSingle({}: Props) {
       <OrderHeader data={data?.data} loading={isLoading} />
       <div className="container">
         <RefundInfo list={data?.data.order_refunds || []} />
-        <OrderMap readonly data={data?.data} loading={isLoading} />
+        {/* <OrderMap readonly data={data?.data} loading={isLoading} /> */}
         <OrderContainer data={data?.data} loading={isLoading} />
       </div>
       <OrderReview open={openModal} onClose={handleClose} refetch={refetch} />
