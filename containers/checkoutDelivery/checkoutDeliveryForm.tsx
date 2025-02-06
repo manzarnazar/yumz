@@ -148,7 +148,7 @@ export default function CheckoutDeliveryForm({
             label={t("phone")}
             name="phone"
             placeholder={t("verify.your.phone")}
-            disabled={!isUsingCustomPhoneSignIn}
+            // disabled={!isUsingCustomPhoneSignIn}
             value={isUsingCustomPhoneSignIn ? formik.values.phone : user?.phone}
             onChange={
               isUsingCustomPhoneSignIn ? formik.handleChange : undefined
