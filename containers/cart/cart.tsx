@@ -57,6 +57,7 @@ export default function Cart({ shop }: Props) {
 
 
   
+console.log("cart",cart);
 
   return (
     <div className={cls.wrapper}>
