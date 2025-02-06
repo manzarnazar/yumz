@@ -74,6 +74,7 @@ export interface IShop {
   translation: IShopTranslation;
   logo_img?: string;
   background_img?: string;
+  serviceFee:number,
   mark?: string;
   uuid?: string;
   products_count?: number;

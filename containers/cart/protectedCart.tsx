@@ -103,7 +103,7 @@ const { address } = useSettings(); // Access the address from the context
       {!isEmpty && <CartServices data={shop} />}
       {!isEmpty && <CartTotal totalPrice={ Number(cart.total_price) + 
       Number(deliveryPrice) + 
-      Number(cart.rate)} data={shop} />}
+      Number(shop.serviceFee)} data={shop} />}
       {isLoading && <Loading />}
     </div>
   );

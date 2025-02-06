@@ -77,7 +77,7 @@ export default function CartServices({ data }: Props) {
             </div>
           </div>
           <div className={cls.price}>
-            <Price number={cart.rate} />
+            <Price number={data.serviceFee} />
           </div>
         </div>
       

@@ -74,7 +74,7 @@ console.log("cart",cart);
       </div>
       {cartItems.length > 0 && <CartServices data={shop} />}
       {cartItems.length > 0 && (
-        <CartTotal totalPrice={totalPrice+deliveryPrice} data={shop} />
+        <CartTotal totalPrice={totalPrice+deliveryPrice+shop.serviceFee} data={shop} />
       )}
     </div>
   );
