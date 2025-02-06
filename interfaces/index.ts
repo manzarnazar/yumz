@@ -74,7 +74,7 @@ export interface IShop {
   translation: IShopTranslation;
   logo_img?: string;
   background_img?: string;
-  serviceFee:number,
+  serviceFee?:number,
   mark?: string;
   uuid?: string;
   products_count?: number;
@@ -116,7 +116,7 @@ export interface IBookingShop {
   booking_shop_working_days?: ShopWorkingDays[];
   bonus?: Bonus;
   price: number;
-  serviceFee:number,
+  serviceFee?:number,
   price_per_km?: number;
   phone?: string;
   shop_payments?: ShopPayment[];
