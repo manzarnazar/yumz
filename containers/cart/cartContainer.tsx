@@ -14,6 +14,8 @@ export default function CartContainer({ shop }: Props) {
   const { isMember } = useShop();
   const { isAuthenticated } = useAuth();
 
+  console.log(isMember);
+  
   if (isMember) {
     return <MemberCart shop={shop} />;
   } else if (isAuthenticated) {

@@ -41,6 +41,9 @@ export default function ProtectedCart({ shop }: Props) {
     }
   );
 
+  console.log("cart",cart);
+  
+
 const { address } = useSettings(); // Access the address from the context
     const [price, setPrice] = useState('');
     const [deliveryPrice, setDeliveryPrice] = useState(0);
@@ -69,7 +72,9 @@ const { address } = useSettings(); // Access the address from the context
         }
       }
     }, [address, shop?.shop_delivery_zipcodes]);
+  
 
+    
   return (
     <div className={cls.wrapper}>
       <div className={cls.body}>
@@ -96,7 +101,9 @@ const { address } = useSettings(); // Access the address from the context
         )}
       </div>
       {!isEmpty && <CartServices data={shop} />}
-      {!isEmpty && <CartTotal totalPrice={cart.total_price+deliveryPrice} data={shop} />}
+      {!isEmpty && <CartTotal totalPrice={ Number(cart.total_price) + 
+      Number(deliveryPrice) + 
+      Number(cart.rate)} data={shop} />}
       {isLoading && <Loading />}
     </div>
   );

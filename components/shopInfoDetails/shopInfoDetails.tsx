@@ -16,6 +16,7 @@ import { success, error } from "components/alert/toast";
 import { useQuery } from "react-query";
 import shopService from "services/shop";
 import RoadMapIcon from "remixicon-react/RoadMapLineIcon";
+import PhoneFillIcon from "remixicon-react/PhoneFillIcon";
 
 type Props = {
   data?: IShop;
@@ -62,6 +63,16 @@ export default function ShopInfoDetails({ data, onClose }: Props) {
           </p>
         </div>
         <div className={cls.body}>
+          
+        <div className={cls.flexBtn}>
+            <div className={cls.flex}>
+              <PhoneFillIcon />
+              <span className={cls.text}>
+                {data?.phone}{" "}
+              
+              </span>
+            </div>
+          </div>
           <div className={cls.flexBtn}>
             <button
               className={cls.flex}
@@ -116,6 +127,8 @@ export default function ShopInfoDetails({ data, onClose }: Props) {
               </span>
             </div>
           </div>
+
+         
           {branches && branches?.data?.length !== 0 && (
             <div className={cls.flexBtn}>
               <button

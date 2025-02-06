@@ -78,6 +78,8 @@ export default function Restaurant({ memberState }: Props) {
   const dispatch = useAppDispatch();
   const isOpenProduct = Boolean(query.product) || isOpen;
   const uuid = String(query.product || "");
+  console.log("uuid",uuid);
+  
 
   const [isSearchCategorySearchOpen, setIsSearchCategorySearchOpen] =
     useState(false);

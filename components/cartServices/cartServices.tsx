@@ -67,6 +67,20 @@ export default function CartServices({ data }: Props) {
           <Price number={deliveryPrice} />
         </div>
       </div>
+      <div className={cls.flex}>
+          <div className={cls.item}>
+            {/* <Badge type="discount" variant="circle" /> */}
+            <span></span>
+            <div className={cls.row}>
+              <h5 className={cls.title}>{t("Service Fee")}</h5>
+              {/* <p className={cls.text}>{t("recipe.discount.definition")}</p> */}
+            </div>
+          </div>
+          <div className={cls.price}>
+            <Price number={cart.rate} />
+          </div>
+        </div>
+      
 
       {!!cart.receipt_discount && (
         <div className={cls.flex}>

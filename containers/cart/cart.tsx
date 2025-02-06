@@ -9,6 +9,7 @@ import { selectCart, selectTotalPrice } from "redux/slices/cart";
 import EmptyCart from "components/emptyCart/emptyCart";
 import { IShop } from "interfaces";
 import { useSettings } from "contexts/settings/settings.context";
+import { selectUserCart } from "redux/slices/userCart";
 
 type Props = {
   shop: IShop;
@@ -20,7 +21,13 @@ export default function Cart({ shop }: Props) {
   const { address } = useSettings(); // Access the address from the context
   const [price, setPrice] = useState('');
   const [deliveryPrice, setDeliveryPrice] = useState(0);
+  const cart = useAppSelector(selectUserCart);
 
+  console.log(cartItems);
+  console.log("shop",shop);
+  
+
+  
   useEffect(() => {
     if (address) {
       const add = address.split(",");

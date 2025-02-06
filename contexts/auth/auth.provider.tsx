@@ -41,7 +41,7 @@ function reducer(state: IUser, action: AuthAction): IUser | null {
       return payload;
     case AuthActionKind.LOGOUT:
       removeCookie("access_token");
-      setCookie("user", null);
+      removeCookie("user");
       return null;
     default:
       return state;

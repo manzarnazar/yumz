@@ -54,7 +54,8 @@ export default function CheckoutContainer({
   const { data: payments } = useQuery("payments", () =>
     paymentService.getAll(),
   );
-
+  console.log("checkout",cart);
+  
   const { paymentType, paymentTypes } = useMemo(() => {
     return {
       paymentType:
