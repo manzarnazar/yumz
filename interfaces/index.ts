@@ -116,6 +116,7 @@ export interface IBookingShop {
   booking_shop_working_days?: ShopWorkingDays[];
   bonus?: Bonus;
   price: number;
+  serviceFee:number,
   price_per_km?: number;
   phone?: string;
   shop_payments?: ShopPayment[];
