@@ -155,6 +155,8 @@ export default function GuestOrderInfo({ data }: Props) {
     return cart.shop_id === 0 || cart.shop_id === data?.shop.id;
   }
 
+  console.log("data",data);
+  
   return (
     <div className={cls.wrapper}>
       <div className={cls.header}>
@@ -171,6 +173,13 @@ export default function GuestOrderInfo({ data }: Props) {
         {/* {data?.status === "delivered" && canRefund && <OrderRefund />} */}
       </div>
       <div className={cls.address}>
+      
+          <label>{t("Kunde")}</label>
+        <h6 className={cls.text}>{data?.user?.firstname} {data?.user?.lastname }</h6>
+        <br />
+        <label>{t("telefon")}</label>
+        <h6 className={cls.text}>{data?.user?.phone}</h6>
+        <br />
         {data?.delivery_type === "pickup" ? (
           <label>{t("pickup.address")}</label>
         ) : (

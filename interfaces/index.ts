@@ -310,6 +310,7 @@ export interface Order {
   service_fee?: number;
   image_after_delivered?: string;
   otp?: number;
+  user: IUser;
 }
 
 export interface OrderReview {
