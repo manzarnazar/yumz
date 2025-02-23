@@ -70,9 +70,12 @@
 }
 .wrapper2 {
   position: relative;
-  min-width: 300px;
+  min-width: 450px;
   max-width: 576px;
   padding: 30px;
+  @media (max-width: 576px) {
+    min-width: 300px;
+  }
 }
 .actionsVertical {
   display: flex;
