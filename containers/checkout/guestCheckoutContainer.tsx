@@ -22,6 +22,7 @@ import { EXTERNAL_PAYMENTS } from "constants/constants";
 import { useAuth } from "contexts/auth/auth.context";
 import Script from "next/script";
 import Loading from "../../components/loader/loading";
+import GuestCheckoutPayment from "containers/checkoutPayment/guestcheckoutPayment";
 
 type Props = {
   data: IShop;
@@ -29,7 +30,7 @@ type Props = {
   onPhoneVerify: () => void;
 };
 
-export default function CheckoutContainer({
+export default function GuestCheckoutContainer({
   data,
   children,
   onPhoneVerify,
@@ -55,6 +56,8 @@ export default function CheckoutContainer({
     paymentService.getAll(),
   );
   
+
+  
   
   const { paymentType, paymentTypes } = useMemo(() => {
     return {
@@ -78,6 +81,7 @@ export default function CheckoutContainer({
   const extract = filter?.split(" ");
   let cityExtracted = extract.length == 1 ? extract?.[0] : extract?.[1];
   console.log("EXRACTED",cityExtracted );
+  console.log(cart.owner_id);
   
 
   const formik = useFormik({
@@ -144,13 +148,10 @@ export default function CheckoutContainer({
         rate: currency?.rate,
         shop_id: data.id,
         cart_id: cart.id,
+        user_id: cart.owner_id,
         payment_type: undefined,
         for_someone: undefined,
-        phone: values.for_someone
-          ? trimmedPhone
-          : isUsingCustomPhoneSignIn
-            ? trimmedPhone
-            : user?.phone,
+        phone: "12121212",
         username: values.for_someone ? values.username : undefined,
         delivery_time: values.delivery_time?.split(" - ")?.at(0),
         coupon:
@@ -178,11 +179,11 @@ export default function CheckoutContainer({
   });
 
   const { isLoading, mutate: createOrder } = useMutation({
-    mutationFn: (data: any) => orderService.create(data),
+    mutationFn: (data: any) => orderService.guestCreate(data),
     onSuccess: (data) => {
       queryClient.invalidateQueries(["profile"], { exact: false });
       queryClient.invalidateQueries(["cart"], { exact: false });
-      replace(`/orders/${data.data.id}`);
+      replace(`/guestorders/${data.data.id}`);
     },
     onError: (err: any) => {
       error(err?.data?.message);
@@ -247,7 +248,7 @@ export default function CheckoutContainer({
       };
     }
   }, [payFastUrl]);
-
+  
   return (
     <>
       {payFastWebHookWaiting && (
@@ -285,13 +286,14 @@ export default function CheckoutContainer({
               })}
             </main>
             <aside className={cls.aside}>
-              <CheckoutPayment
+              <GuestCheckoutPayment
                 formik={formik}
                 shop={data}
                 loading={isLoading || externalPayLoading}
                 payments={paymentTypes}
                 onPhoneVerify={onPhoneVerify}
               />
+              
             </aside>
           </section>
         </div>
@@ -299,3 +301,5 @@ export default function CheckoutContainer({
     </>
   );
 }
+
+

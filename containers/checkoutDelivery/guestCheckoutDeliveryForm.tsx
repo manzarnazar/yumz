@@ -41,7 +41,7 @@ type Props = {
   onPhoneVerify: () => void;
 };
 
-export default function CheckoutDeliveryForm({
+export default function GuestCheckoutDeliveryForm({
   formik,
   data,
   onPhoneVerify,
@@ -143,7 +143,7 @@ export default function CheckoutDeliveryForm({
             placeholder={t("type.here")}
           />
         </div>
-        <div className={cls.flex}>
+        {/* <div className={cls.flex}>
           <TextInput
             label={t("phone")}
             name="phone"
@@ -178,7 +178,7 @@ export default function CheckoutDeliveryForm({
                   }
             }
           />
-        </div>
+        </div> */}
         <TextInput
           name="note"
           label={t("comment")}

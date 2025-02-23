@@ -23,7 +23,7 @@ export default function Cart({ shop }: Props) {
   const [deliveryPrice, setDeliveryPrice] = useState(0);
   const cart = useAppSelector(selectUserCart);
 
-  console.log(cartItems);
+// 
   console.log("shop",shop);
   
 

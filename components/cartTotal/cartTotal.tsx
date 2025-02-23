@@ -11,15 +11,17 @@ import { useAppSelector } from "hooks/useRedux";
 import { selectUserCart } from "redux/slices/userCart";
 import useModal from "hooks/useModal";
 import ConfirmationModal from "components/confirmationModal/confirmationModal";
-import { info } from "components/alert/toast";
+import { info, error } from "components/alert/toast";
 import { useShop } from "contexts/shop/shop.context";
+import GuestLoginPromptModal from "components/GuestLoginPromptModal/GuestLoginPromptModal";
+import GuestDetailsModal from "containers/checkout/GuestDetailsModal";
 
 type Props = {
   totalPrice: number;
   data: IShop;
 };
 
-export default function CartTotal({ totalPrice = 0 }: Props) {
+export default function CartTotal({ totalPrice = 0, data }: Props) {
   const { t } = useTranslation();
   const { push } = useRouter();
   const { isAuthenticated } = useAuth();
@@ -27,17 +29,15 @@ export default function CartTotal({ totalPrice = 0 }: Props) {
   const cart = useAppSelector(selectUserCart);
   const [clicked, setClicked] = useState(false);
   const [openPrompt, handleOpenPrompt, handleClosePrompt] = useModal();
+  const [openGuestPrompt, handleOpenGuestPrompt, handleCloseGuestPrompt] = useModal();
+  const [openGuestDetails, handleOpenGuestDetails, handleCloseGuestDetails] = useModal();
   const { isOpen } = useShop();
 
   function handleCheck() {
-    // if (!isOpen) {
-    //   info(t("shop.closed"));
-    //   return;
-    // }
     setClicked(true);
     if (isAuthenticated) {
       const members = cart.user_carts.filter(
-        (item) => item.user_id !== cart.owner_id,
+        (item) => item.user_id !== cart.owner_id
       );
       const isMemberActive = members.some((item) => item.status);
       if (isMemberActive) {
@@ -46,12 +46,32 @@ export default function CartTotal({ totalPrice = 0 }: Props) {
       }
       goToCheckout();
     } else {
-      push("/login");
+      handleOpenGuestPrompt();
+      // const userId = localStorage.getItem("user_id");
+      // console.log("Retrieved user_id from localStorage:", userId);
+
     }
   }
 
   function goToCheckout() {
     push(`/restaurant/${cart.shop_id}/checkout`);
+  }
+
+  // function guestGoToCheckout(queryParams: string) {
+  function guestGoToCheckout() {
+    push(`/restaurant/${data.id}/guestcheckout`);
+  }
+
+  function handleGuestCheckout() {
+    handleCloseGuestPrompt();
+    handleOpenGuestDetails();
+  }
+
+ 
+
+  function handleLogin() {
+    handleCloseGuestPrompt();
+    push("/login");
   }
 
   return (
@@ -75,6 +95,20 @@ export default function CartTotal({ totalPrice = 0 }: Props) {
         onSubmit={goToCheckout}
         loading={isLoading}
         title={t("group.order.permission")}
+      />
+      <GuestLoginPromptModal
+        open={openGuestPrompt}
+        handleClose={handleCloseGuestPrompt}
+        onGuestCheckout={handleGuestCheckout}
+        onLogin={handleLogin}
+        loading={isLoading}
+        guestText={t("Guest Checkout")}
+        loginText={t("login")}
+      />
+      <GuestDetailsModal
+        open={openGuestDetails}
+        handleClose={handleCloseGuestDetails}
+        onSubmit={guestGoToCheckout}
       />
     </div>
   );

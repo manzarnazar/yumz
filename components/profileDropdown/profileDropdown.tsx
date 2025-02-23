@@ -99,7 +99,7 @@ export default function ProfileDropdown({ data }: Props) {
             </div>
           </header>
           <div className={cls.body}>
-            <Link href={"/wallet"} className={cls.flex} onClick={handleClose}>
+            {/* <Link href={"/wallet"} className={cls.flex} onClick={handleClose}>
               <div className={cls.item}>
                 <Wallet3LineIcon />
                 <span className={cls.text}>{t("wallet")}:</span>
@@ -110,7 +110,7 @@ export default function ProfileDropdown({ data }: Props) {
                   />
                 </span>
               </div>
-            </Link>
+            </Link> */}
             <Link href={"/orders"} className={cls.flex} onClick={handleClose}>
               <div className={cls.item}>
                 <HistoryLineIcon />
@@ -132,7 +132,7 @@ export default function ProfileDropdown({ data }: Props) {
                 </div>
               </Link>
             )}
-            <Link
+            {/* <Link
               href={"/be-seller"}
               className={cls.flex}
               onClick={handleClose}
@@ -141,7 +141,7 @@ export default function ProfileDropdown({ data }: Props) {
                 <UserStarLineIcon />
                 <span className={cls.text}>{t("be.seller")}</span>
               </div>
-            </Link>
+            </Link> */}
             {activeParcel && (
               <Link
                 href={"/parcels"}

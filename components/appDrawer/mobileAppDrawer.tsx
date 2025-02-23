@@ -51,7 +51,7 @@ export default function MobileAppDrawer({ handleClose }: Props) {
         {isAuthenticated && (
           <ProfileCard data={user} handleClose={handleClose} />
         )}
-        {isAuthenticated && (
+        {/* {isAuthenticated && (
           <Link href={"/wallet"} className={cls.row} onClick={handleClose}>
             <div className={cls.rowItem}>
               <Wallet3LineIcon />
@@ -65,7 +65,7 @@ export default function MobileAppDrawer({ handleClose }: Props) {
             </div>
             <ArrowRightSLineIcon />
           </Link>
-        )}
+        )} */}
         {isAuthenticated && (
           <Link href={"/orders"} className={cls.row} onClick={handleClose}>
             <div className={cls.rowItem}>
@@ -78,13 +78,13 @@ export default function MobileAppDrawer({ handleClose }: Props) {
             <ArrowRightSLineIcon />
           </Link>
         )}
-        <Link href={"/be-seller"} className={cls.row} onClick={handleClose}>
+        {/* <Link href={"/be-seller"} className={cls.row} onClick={handleClose}>
           <div className={cls.rowItem}>
             <UserStarLineIcon />
             <span className={cls.text}>{t("be.seller")}</span>
           </div>
           <ArrowRightSLineIcon />
-        </Link>
+        </Link> */}
         {isAuthenticated && (
           <Link href={"/parcels"} className={cls.row} onClick={handleClose}>
             <div className={cls.rowItem}>
