@@ -630,6 +630,7 @@ export interface InsertProductBody {
     quantity: number;
     parent_id?: number;
   }[];
+  user_cart_uuid?: string;
 }
 
 export interface MemberInsertProductBody extends InsertProductBody {

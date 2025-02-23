@@ -19,6 +19,7 @@ import useModal from "hooks/useModal";
 import { useMediaQuery } from "@mui/material";
 import GuestCheckoutContainer from "containers/checkout/GuestCheckoutContainer";
 import GuestCheckoutDelivery from "containers/checkoutDelivery/guestcheckoutDelivery";
+import GuestCheckoutProducts from "containers/checkoutProducts/guestcheckoutProducts";
 
 const ModalContainer = dynamic(() => import("containers/modal/modal"));
 const MobileDrawer = dynamic(() => import("containers/drawer/mobileDrawer"));
@@ -73,7 +74,7 @@ export default function GuestCheckout({}: Props) {
       <SEO />
       <GuestCheckoutContainer onPhoneVerify={handleOpenPhone} data={data?.data}>
         <GuestCheckoutDelivery />
-        <CheckoutProducts loading={isLoading} />
+        <GuestCheckoutProducts loading={isLoading} />
       </GuestCheckoutContainer>
       {isDesktop ? (
         <ModalContainer open={phoneModal} onClose={handleClosePhone}>
