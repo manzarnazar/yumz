@@ -27,26 +27,18 @@ type Props = {
 };
 
 export default function GuestDetailsModal({ open, handleClose, onSubmit }: Props) {
-const cartItems = useAppSelector(selectCart);
+  const cartItems = useAppSelector(selectCart);
   console.log(cartItems);
   const totalPrice = useAppSelector(selectTotalPrice);
-//   console.log(totalPrice);
+  //   console.log(totalPrice);
   const { t } = useTranslation();
   const [details, setDetails] = useState<GuestDetails>({
     firstname: "",
     lastname: "",
     phone: "",
   });
-
-  const cartItemsss = cartItems.map(item => ({
-    stock_id: item.stock.id,
-    quantity: item.quantity,
-    price: item.stock.price,
-    bonus: item.stock.bonus || 0,
-    discount: item.stock.discount || 0,
-    bonus_type: null
-}));
-
+  
+  console.log("rester:", cartItems); // Log the API response
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDetails({ ...details, [e.target.name]: e.target.value });
@@ -69,7 +61,6 @@ const cartItems = useAppSelector(selectCart);
       return response.json();
     },
     onSuccess: async (data: ApiResponse) => {
-      console.log("API response:", data); // Log the API response
 
       // Store user_id in localStorage
       if (data.user_id) {
@@ -83,7 +74,14 @@ const cartItems = useAppSelector(selectCart);
         user_id: parseInt(data.user_id), // Convert user_id to number
         name: `${details.firstname} ${details.lastname}`,
         total_price: totalPrice,
+        
         cart_items: cartItems.map(item => ({
+            // Map over item.addons instead of item
+            addons: item.addons ? item.addons.map(addon => ({
+                stock_id: addon.stock.id,
+                quantity: addon.quantity,
+                price: addon.stock.price,
+            })) : [], // If item.addons is undefined, default to an empty array
             stock_id: item.stock.id,
             quantity: item.quantity,
             price: item.stock.price,
@@ -93,8 +91,9 @@ const cartItems = useAppSelector(selectCart);
         })),
         shop_id: cartItems[0].shop_id, // Replace with actual shop ID
         currency_id: 2, // Replace with actual currency ID
-      };
-
+    };
+    
+    console.log("succcccccc",guestCartPayload);
       // Make the second API call
       try {
         const guestCartResponse = await fetch("https://api.yumz.dk/api/v1/guest-cart", {
@@ -136,6 +135,7 @@ const cartItems = useAppSelector(selectCart);
     // Trigger the mutation
     mutate(details);
   };
+  
 
   const cartId = localStorage.getItem("cart_id");
   const userId = localStorage.getItem("user_id");
