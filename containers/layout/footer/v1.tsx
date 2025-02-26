@@ -160,7 +160,7 @@ export default function Footer({}: Props) {
                 &copy; {new Date().getFullYear()} {settings?.footer_text}
               </p> */}
               <p className={cls.text}>
-                CVR: 45251853
+                CVR NR: 45251853
               </p>
               <p className={cls.text}>
                 Tel: +45 49904429
