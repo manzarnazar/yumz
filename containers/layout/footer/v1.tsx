@@ -139,9 +139,12 @@ export default function Footer({}: Props) {
                 >
                   <FacebookCircleFillIcon />
                 </a>
+                <p className={cls.text}>
+                &copy; {new Date().getFullYear()} {settings?.footer_text}
+              </p>
               </div>
             </Grid>
-            <Grid item xs={12} md={3}>
+            <Grid item xs={12} md={2}>
               <div className={cls.flex}>
                 <Link href="/privacy" className={cls.mutedLink}>
                   {t("privacy.policy")}
@@ -152,10 +155,20 @@ export default function Footer({}: Props) {
               </div>
             </Grid>
             <Grid item xs={12} md={3}>
-              <p className={cls.text}>
+            <div className={cls.flex}>
+              {/* <p className={cls.text}>
                 &copy; {new Date().getFullYear()} {settings?.footer_text}
+              </p> */}
+              <p className={cls.text}>
+                CVR: 45251853
               </p>
+              <p className={cls.text}>
+                Tel: +45 49904429
+              </p>
+              </div>
+              
             </Grid>
+            
           </Grid>
         </div>
       </div>
