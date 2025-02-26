@@ -86,6 +86,7 @@ export interface IShop {
   price: number;
   price_per_km?: number;
   phone?: string;
+  cvr_number?: string;
   shop_payments?: ShopPayment[];
   rating_avg?: number;
   is_recommended?: boolean;

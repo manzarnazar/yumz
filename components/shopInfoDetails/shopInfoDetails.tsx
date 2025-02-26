@@ -73,6 +73,7 @@ export default function ShopInfoDetails({ data, onClose }: Props) {
               </span>
             </div>
           </div>
+       
           <div className={cls.flexBtn}>
             <button
               className={cls.flex}
@@ -127,7 +128,15 @@ export default function ShopInfoDetails({ data, onClose }: Props) {
               </span>
             </div>
           </div>
-
+          <div className={cls.flexBtn}>
+            <div className={cls.flex}>
+                CVR No:
+              <span className={cls.text}>
+                {data?.cvr_number}{" "}
+              
+              </span>
+            </div>
+          </div>
          
           {branches && branches?.data?.length !== 0 && (
             <div className={cls.flexBtn}>
