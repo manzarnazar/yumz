@@ -72,7 +72,7 @@ export default function CartServices({ data }: Props) {
             {/* <Badge type="discount" variant="circle" /> */}
             <span></span>
             <div className={cls.row}>
-              <h5 className={cls.title}>{t("Service Fee")}</h5>
+              <h5 className={cls.title}>{t("Service gebyr")}</h5>
               {/* <p className={cls.text}>{t("recipe.discount.definition")}</p> */}
             </div>
           </div>
