@@ -162,6 +162,9 @@ export default function CheckoutPayment({
     }
   );
 
+  
+  
+
   function handleOrderCreate() {
     const localShopMinPrice =
       ((currency?.rate || 1) * (shop?.min_amount || 1)) /

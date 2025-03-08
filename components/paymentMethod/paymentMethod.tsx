@@ -4,7 +4,6 @@ import RadioInput from "components/inputs/radioInput";
 import cls from "./paymentMethod.module.scss";
 import PrimaryButton from "components/button/primaryButton";
 import { Payment } from "interfaces";
-
 type Props = {
   value?: string;
   list: Payment[];
@@ -23,8 +22,9 @@ export default function PaymentMethod({
   const [selectedValue, setSelectedValue] = useState(value);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedValue(event.target.value);
-    onSubmit(event.target.value);
+    const selectedTag = event.target.value;
+    setSelectedValue(selectedTag);
+    onSubmit(selectedTag); // Pass the selected tag to the parent component
   };
 
   const controlProps = (item: string) => ({
@@ -48,16 +48,6 @@ export default function PaymentMethod({
           </div>
         ))}
       </div>
-      {/*<div className={cls.footer}>*/}
-      {/*  <div className={cls.action}>*/}
-      {/*    <PrimaryButton*/}
-      {/*      loading={isButtonLoading}*/}
-      {/*      onClick={() => onSubmit(selectedValue)}*/}
-      {/*    >*/}
-      {/*      {t("save")}*/}
-      {/*    </PrimaryButton>*/}
-      {/*  </div>*/}
-      {/*</div>*/}
     </div>
   );
 }

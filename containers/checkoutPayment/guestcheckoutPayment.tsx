@@ -331,16 +331,18 @@ export default function GuestCheckoutPayment({
           onClose={handleClosePaymentMethod}
           title={t("payment.method")}
         >
-          <PaymentMethod
-            value={formik.values.payment_type?.tag}
-            list={payments}
-            handleClose={handleClosePaymentMethod}
-            onSubmit={(tag) => {
-              const payment = payments?.find((item) => item.tag === tag);
-              formik.setFieldValue("payment_type", payment);
-              handleClosePaymentMethod();
-            }}
-          />
+         <PaymentMethod
+  value={formik.values.payment_type?.tag} // Pass the current payment type tag
+  list={payments}
+  handleClose={handleClosePaymentMethod}
+  onSubmit={(tag) => {
+    const payment = payments.find((item) => item.tag === tag); // Find the selected payment method
+    if (payment) {
+      formik.setFieldValue("payment_type", payment); // Update the formik state
+    }
+    handleClosePaymentMethod(); // Close the drawer
+  }}
+/>
         </DrawerContainer>
       ) : (
         <MobileDrawer

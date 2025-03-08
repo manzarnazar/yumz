@@ -59,7 +59,7 @@ export default function CartTotal({ totalPrice = 0, data }: Props) {
 
   // function guestGoToCheckout(queryParams: string) {
   function guestGoToCheckout() {
-    push(`/restaurant/${data.id}/guestcheckout`);
+    push(`/restaurant/${data.id}/guestcheckout?totalPrice=${totalPrice}`);
   }
 
   function handleGuestCheckout() {

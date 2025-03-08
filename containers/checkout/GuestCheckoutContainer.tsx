@@ -38,6 +38,7 @@ export default function GuestCheckoutContainer({
   const router = useRouter();
   const { t } = useTranslation();
   const { address, location } = useSettings();
+  
   const latlng = location;
   const { user } = useAuth();
   const { replace } = useRouter();
@@ -48,6 +49,7 @@ export default function GuestCheckoutContainer({
   const queryClient = useQueryClient();
   const [payFastUrl, setPayFastUrl] = useState("");
   const [payFastWebHookWaiting, setPayFastWebHookWaiting] = useState(false);
+  
 
   const isUsingCustomPhoneSignIn =
     process.env.NEXT_PUBLIC_CUSTOM_PHONE_SINGUP === "true";
@@ -56,6 +58,56 @@ export default function GuestCheckoutContainer({
     paymentService.getAll(),
   );
   
+
+
+  const handlePayment = async (id: any) => {
+    console.log(id);
+  
+    try {
+      // Ensure order_id is a string
+      const orderId = String(id); // Convert to string
+  
+      // Step 1: Call the payment API
+      const response = await fetch("https://api.yumz.dk/api/v1/rest/create-payment", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          order_id: orderId, // Use the string version
+          success_url: `https://yumz.dk/guestorders/${id}`,
+          cancel_url: `https://yumz.dk`,
+        }),
+      });
+  
+      // Check if the response is OK (status code 200-299)
+      if (!response.ok) {
+        const errorData = await response.text(); // Read the error message as text
+        console.error("Server Error:", errorData);
+        throw new Error(`Server Error: ${errorData}`);
+      }
+  
+      // Parse the response as JSON
+      const data = await response.json();
+      console.log(data.link);
+  
+      if (!data || !data.link) {
+        console.error("Payment URL not found in response");
+        throw new Error("Payment URL not found in response");
+      }
+  
+      const paymentUrl = String(data.link); // Ensure you use the correct key
+      console.log("paymentUrl", paymentUrl);
+  
+      // Redirect to the payment URL
+      router.push(paymentUrl);
+  
+    } catch (error) {
+      console.error("Error creating payment:", error);
+      // Display an error message to the user (optional)
+      alert("Payment creation failed. Please try again.");
+    }
+  };
 
   
   
@@ -178,12 +230,20 @@ export default function GuestCheckoutContainer({
     },
   });
 
+  console.log(formik.values.payment_type?.tag);
+  
+
   const { isLoading, mutate: createOrder } = useMutation({
     mutationFn: (data: any) => orderService.guestCreate(data),
     onSuccess: (data) => {
       queryClient.invalidateQueries(["profile"], { exact: false });
       queryClient.invalidateQueries(["cart"], { exact: false });
-      replace(`/guestorders/${data.data.id}`);
+      if (formik.values.payment_type?.tag === "pensopay") {
+        // Call handlePayment for "pensopay"
+        handlePayment(data.data.id);
+      } else {
+        replace(`/guestorders/${data.data.id}`);
+      }
     },
     onError: (err: any) => {
       error(err?.data?.message);
@@ -301,5 +361,3 @@ export default function GuestCheckoutContainer({
     </>
   );
 }
-
-
