@@ -107,9 +107,10 @@ export default function ShopSingle({ memberState }: Props) {
   
     console.log("payment",payment);
     
+    
   
     useEffect(() => {
-      if (payment === 'success') {
+      if (payment === 'failed') {
         toastError("Betaling mislykkedes!");
   
   

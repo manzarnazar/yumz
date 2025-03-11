@@ -77,7 +77,7 @@ export default function GuestCheckoutContainer({
         body: JSON.stringify({
           order_id: orderId, // Use the string version
           success_url: `https://yumz.dk/guestorders/${id}?payment=success`,
-          cancel_url: `https://yumz.dk/shop/${shopId}?payment=cancel`,
+          cancel_url: `https://yumz.dk/shop/${shopId}?payment=failed`,
         }),
       });
   
