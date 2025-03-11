@@ -62,7 +62,7 @@ export default function ShopInfo({ data }: Props) {
           {order.delivery_time}
         </div>
       )}
-      <button
+      {/* <button
         className={cls.textBtn}
         onClick={() =>
           push({
@@ -72,7 +72,7 @@ export default function ShopInfo({ data }: Props) {
         }
       >
         {t("recipes")}
-      </button>
+      </button> */}
 
       {isDesktop ? (
         <ModalContainer open={modal} onClose={handleClose} closable={false}>

@@ -102,7 +102,7 @@ export default function CartTotal({ totalPrice = 0, data }: Props) {
         onGuestCheckout={handleGuestCheckout}
         onLogin={handleLogin}
         loading={isLoading}
-        guestText={t("Guest Checkout")}
+        guestText={t("Bestil Som Gæst")}
         loginText={t("login")}
       />
       <GuestDetailsModal

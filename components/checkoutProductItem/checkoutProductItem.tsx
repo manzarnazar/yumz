@@ -191,7 +191,7 @@ export default function CheckoutProductItem({ data, disabled, formik }: Props) {
         />
       </div>
 
-      <div className={cls.textarea}>
+      {/* <div className={cls.textarea}>
         <TextInput
           name={`notes.${data.stock.id}`}
           label={t("note")}
@@ -202,7 +202,7 @@ export default function CheckoutProductItem({ data, disabled, formik }: Props) {
             setNote(e.target.value);
           }}
         />
-      </div>
+      </div> */}
 
       {(isLoading || isCartLoading || isDeleteLoading) && <Loading />}
     </div>

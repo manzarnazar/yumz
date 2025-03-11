@@ -195,7 +195,7 @@ export default function GuestCheckoutDeliveryForm({
             value={formik.values.for_someone}
           />
           <label htmlFor="for_someone" className={cls.label}>
-            {t("Bestille Til Nogen")}
+            {t("Bestil Ordren Til En Anden")}
           </label>
         </div>
         {!!for_someone && (

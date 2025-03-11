@@ -204,7 +204,7 @@ const [cartId, setCartId] = useState<string | null>(null);
         />
       </div>
 
-      <div className={cls.textarea}>
+      {/* <div className={cls.textarea}>
         <TextInput
           name={`notes.${data.stock.id}`}
           label={t("note")}
@@ -215,7 +215,7 @@ const [cartId, setCartId] = useState<string | null>(null);
             setNote(e.target.value);
           }}
         />
-      </div>
+      </div> */}
 
       {(isLoading || isCartLoading || isDeleteLoading) && <Loading />}
     </div>

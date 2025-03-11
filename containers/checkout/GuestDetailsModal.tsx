@@ -149,37 +149,38 @@ export default function GuestDetailsModal({ open, handleClose, onSubmit }: Props
   return (
     <ModalContainer open={open} onClose={handleClose}>
       <div className={cls.wrapper2}>
-        <h2 className="text-lg font-semibold mb-4">{t("Guest Details")}</h2>
+        <h2 className="text-lg font-semibold mb-4">{t("Gæsteoplysninger")}</h2>
         {isError && <p className={cls.error}>{t("Submission failed. Please try again.")}</p>}
         <div className={cls.actionsVertical}>
           <TextInput
             name="firstname"
-            label={t("First Name")}
+            label={t("Fornavn")}
             required={true}
             value={details.firstname}
             onChange={handleChange}
-            placeholder={t("Enter first name")}
+            placeholder={t("Indtast Fornavn")}
             aria-label="First Name"
           />
           <TextInput
             name="lastname"
-            label={t("Last Name")}
+            label={t("Efternavn")}
+            required={true}
             value={details.lastname}
             onChange={handleChange}
-            placeholder={t("Enter last name")}
+            placeholder={t("Indtast Efternavn")}
             aria-label="Last Name"
           />
           <TextInput
             name="phone"
-            label={t("Phone")}
+            label={t("telefon")}
             required={true}
             value={details.phone}
             onChange={handleChange}
-            placeholder={t("Enter phone number")}
+            placeholder={t("Indtast Telefonnummer")}
             aria-label="Phone"
           />
           <PrimaryButton onClick={handleSubmit} loading={isLoading}>
-            {t("Continue")}
+            {t("Fortsætte")}
           </PrimaryButton>
         </div>
       </div>

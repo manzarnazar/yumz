@@ -122,16 +122,16 @@ export default function CheckoutDeliveryForm({
       <div className={cls.form}>
         <div className={cls.flex}>
           <TextInput
-            name="address.office"
-            label={t("office")}
-            value={formik.values.address?.office}
+            name="address.house"
+            label={t("house")}
+            value={formik.values.address?.house}
             onChange={formik.handleChange}
             placeholder={t("type.here")}
           />
           <TextInput
-            name="address.house"
-            label={t("house")}
-            value={formik.values.address?.house}
+            name="dør"
+            label={t("office")}
+            value={formik.values.address?.office}
             onChange={formik.handleChange}
             placeholder={t("type.here")}
           />

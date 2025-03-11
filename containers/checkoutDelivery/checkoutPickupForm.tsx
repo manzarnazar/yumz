@@ -154,7 +154,7 @@ export default function CheckoutPickupForm({
       </div>
       <div className={cls.form}>
         <div className={cls.flex}>
-          <TextInput
+          {/* <TextInput
             label={t("phone")}
             placeholder={t("verify.your.phone")}
             disabled
@@ -179,7 +179,7 @@ export default function CheckoutPickupForm({
                 </InputAdornment>
               ),
             }}
-          />
+          /> */}
         </div>
         <TextInput
           name="note"
