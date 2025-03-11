@@ -80,7 +80,7 @@ export default function GuestCheckoutContainer({
           cancel_url: `https://yumz.dk/shop/${shopId}?payment=failed`,
         }),
       });
-  
+
 
       if (!response.ok) {
         const errorData = await response.text(); // Read the error message as text
@@ -239,7 +239,7 @@ export default function GuestCheckoutContainer({
     onSuccess: (data) => {
       queryClient.invalidateQueries(["profile"], { exact: false });
       queryClient.invalidateQueries(["cart"], { exact: false });
-      if (formik.values.payment_type?.tag === "pensopay") {
+      if (formik.values.payment_type?.id == 15) {
         // Call handlePayment for "pensopay"
         handlePayment(data.data.id);
       } else {
