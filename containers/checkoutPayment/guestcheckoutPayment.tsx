@@ -81,86 +81,89 @@ export default function GuestCheckoutPayment({
   const [city, setCity] = useState<string | null>(null);
 
 
+
+  console.log("order",order);
+  
    // State to store the human-readable address
-   const [addresss, setAddress] = useState<string>("");
-   useEffect(() => {
-    if (location?.latitude && location?.longitude) {
-      const fetchAddress = async () => {
-        try {
-          const addr = await getAddressFromLocation(
-            `${location.latitude},${location.longitude}`
-          );
-          setAddress(addr || "Unknown Address");
-  
-          // Extract zipcode once address is fetched
-          const add = addr?.split(",");
-          if (add?.length > 1) {
-            const filter = add[add.length - 2]?.trim();
-            
-            const extract = filter?.split(" ");
-            let cityExtracted = extract.length == 1 ? extract?.[0] : extract?.[1];
+  // State to store the human-readable address
+  const [addresss, setAddress] = useState<string>("");
+  useEffect(() => {
+   if (location?.latitude && location?.longitude) {
+     const fetchAddress = async () => {
+       try {
+         const addr = await getAddressFromLocation(
+           `${location.latitude},${location.longitude}`
+         );
+         setAddress(addr || "Unknown Address");
+ 
+         // Extract zipcode once address is fetched
+         const add = addr?.split(",");
+         if (add?.length > 1) {
+           const filter = add[add.length - 2]?.trim();
+           
+           const extract = filter?.split(" ");
+           let cityExtracted = extract.length == 1 ? extract?.[0] : extract?.[1];
 
-            console.log("length check",extract.length);
-            console.log("length check",cityExtracted);
+           console.log("length check",extract.length);
 
-            setCity(cityExtracted);
+           setCity(cityExtracted);
 
-            const extractedZipcode = extract?.[0] || "";
-            setZipcode(extractedZipcode);  // Update zipcode here
-          }
-        } catch (error) {
-          console.error("Failed to fetch address", error);
-          setAddress("Unknown Address");
-          setZipcode(null); // Reset zipcode in case of error
-        }
-      };
-      fetchAddress();
-    }
-  }, [location,zipcode,city]);
-  const payload = useMemo(
-    () => ({
-      address: location,
-      type: delivery_type,
-      coupon,
-      currency_id: currency?.id,
-      tips: tips,
-    }),
-    [location, delivery_type, coupon, currency, tips],
-  );
-  // console.log(addresss);
+           const extractedZipcode = extract?.[0] || "";
+           setZipcode(extractedZipcode);  // Update zipcode here
+         }
+       } catch (error) {
+         console.error("Failed to fetch address", error);
+         setAddress("Unknown Address");
+         setZipcode(null); // Reset zipcode in case of error
+       }
+     };
+     fetchAddress();
+   }
+ }, [location,zipcode,city]);
+ const payload = useMemo(
+   () => ({
+     address: location,
+     type: delivery_type,
+     coupon,
+     currency_id: currency?.id,
+     tips: tips,
+   }),
+   [location, delivery_type, coupon, currency, tips],
+ );
+ // console.log(addresss);
 
-  const { isLoading } = useQuery(
-    ["calculate", payload, cart,zipcode,city],
-    async () => {
-      if (!zipcode) {
-        // Prevent calculation if zipcode is not available
-        warning("Please fill the zipcode first before calculating.");
-        return;  // Return early to avoid triggering calculate without zipcode
-      }
-  
-      const dynamicPayload = {
-        ...payload,
-        zipcode: zipcode,  // Add the valid zipcode here
-        city: city,  // Add the valid zipcode here
-      };
-      console.log("dynamic", dynamicPayload);
-  
-      return orderService.guestCalculate(cart.id, dynamicPayload);
-    },
-    {
-      onSuccess: (data) => {
-        console.log("check Data", data);
-        setOrder(data!.data);
-        setCalculateError(false);
-      },
-      onError: (err: any) => {
-        setCalculateError(true);
-        error(err.data?.message);
-      },
-      staleTime: 0,
-      enabled: !!cart.id && !!zipcode,  // Ensure the query only runs if zipcode is available
-    }
-  );
+ const { isLoading } = useQuery(
+   ["calculate", payload, cart,zipcode,city],
+   async () => {
+     if (!zipcode) {
+       // Prevent calculation if zipcode is not available
+       warning("Please fill the zipcode first before calculating.");
+       return;  // Return early to avoid triggering calculate without zipcode
+     }
+ 
+     const dynamicPayload = {
+       ...payload,
+       zipcode: zipcode,  // Add the valid zipcode here
+       city: city,  // Add the valid zipcode here
+     };
+     console.log("dynamic", dynamicPayload);
+ 
+     return orderService.guestCalculate(cart.id, dynamicPayload);
+   },
+   {
+     onSuccess: (data) => {
+       console.log("check Data", data);
+       setOrder(data!.data);
+       setCalculateError(false);
+     },
+     onError: (err: any) => {
+       setCalculateError(true);
+       error(err.data?.message);
+     },
+     staleTime: 0,
+     enabled: !!cart.id && !!zipcode,  // Ensure the query only runs if zipcode is available
+   }
+ );
 
   console.log(cart.id);
   

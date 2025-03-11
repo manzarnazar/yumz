@@ -67,7 +67,7 @@ export default function GuestCheckoutContainer({
       // Ensure order_id is a string
       const orderId = String(id); // Convert to string
   
-      // Step 1: Call the payment API
+
       const response = await fetch("https://api.yumz.dk/api/v1/rest/create-payment", {
         method: "POST",
         headers: {
@@ -75,12 +75,12 @@ export default function GuestCheckoutContainer({
         },
         body: JSON.stringify({
           order_id: orderId, // Use the string version
-          success_url: `https://yumz.dk/guestorders/${id}`,
+          success_url: `https://yumz.dk/guestorders/${id}?payment=success`,
           cancel_url: `https://yumz.dk`,
         }),
       });
   
-      // Check if the response is OK (status code 200-299)
+
       if (!response.ok) {
         const errorData = await response.text(); // Read the error message as text
         console.error("Server Error:", errorData);
@@ -104,7 +104,7 @@ export default function GuestCheckoutContainer({
   
     } catch (error) {
       console.error("Error creating payment:", error);
-      // Display an error message to the user (optional)
+
       alert("Payment creation failed. Please try again.");
     }
   };

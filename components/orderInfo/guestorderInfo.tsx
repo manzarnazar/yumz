@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Order } from "interfaces";
 import cls from "./orderInfo.module.scss";
 import { useTranslation } from "react-i18next";
@@ -76,6 +76,22 @@ export default function GuestOrderInfo({ data }: Props) {
     (item) => item.status === "accepted" || item.status === "pending",
   );
   const subTotal = calculateOrderSubTotal(data);
+
+    const router = useRouter();
+  const { payment } = router.query;
+
+  console.log("payment",payment);
+  
+
+  useEffect(() => {
+    if (payment === 'success') {
+      success("Betalingen lykkedes!");
+
+      router.replace('/success', undefined, { shallow: true })
+    }
+      
+
+    }, [payment, router]);
 
   const { mutate: orderCancel, isLoading } = useMutation({
     mutationFn: () => orderService.cancel(data?.id || 0),

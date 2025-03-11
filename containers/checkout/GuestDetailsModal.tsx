@@ -73,7 +73,7 @@ export default function GuestDetailsModal({ open, handleClose, onSubmit }: Props
         guest_id: 32, // Replace with actual guest ID if available
         user_id: parseInt(data.user_id), // Convert user_id to number
         name: `${details.firstname} ${details.lastname}`,
-        total_price: totalPrice,
+        total_price:  totalPrice,
         
         cart_items: cartItems.map(item => ({
             // Map over item.addons instead of item
@@ -81,7 +81,7 @@ export default function GuestDetailsModal({ open, handleClose, onSubmit }: Props
                 stock_id: addon.stock.id,
                 quantity: addon.quantity,
                 price: addon.stock.price,
-            })) : [], // If item.addons is undefined, default to an empty array
+            })) : [], 
             stock_id: item.stock.id,
             quantity: item.quantity,
             price: item.stock.price,
@@ -93,8 +93,8 @@ export default function GuestDetailsModal({ open, handleClose, onSubmit }: Props
         currency_id: 2, // Replace with actual currency ID
     };
     
-    console.log("succcccccc",guestCartPayload);
-      // Make the second API call
+    console.log("succccccccerer",JSON.stringify(guestCartPayload));
+
       try {
         const guestCartResponse = await fetch("https://api.yumz.dk/api/v1/guest-cart", {
           method: "POST",
@@ -109,6 +109,8 @@ export default function GuestDetailsModal({ open, handleClose, onSubmit }: Props
         }
 
         const guestCartData = await guestCartResponse.json();
+        console.log("guestCartData",guestCartData);
+        
         localStorage.setItem("cart_uuid", guestCartData.cart_uuid);
         localStorage.setItem("cart_id", guestCartData.cart_id);
 
