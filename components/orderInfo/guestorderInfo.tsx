@@ -87,7 +87,7 @@ export default function GuestOrderInfo({ data }: Props) {
     if (payment === 'success') {
       success("Betalingen lykkedes!");
 
-      router.replace('/success', undefined, { shallow: true })
+
     }
       
 
