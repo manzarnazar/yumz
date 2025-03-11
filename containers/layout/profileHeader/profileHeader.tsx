@@ -23,7 +23,7 @@ export default function ProfileHeader({}: Props) {
 
   const handleBack = () => {
     if (pathname.includes("orders")) {
-      push("/orders");
+      push("/home");
       return;
     }
     if (pathname.includes("checkout")) {

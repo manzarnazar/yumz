@@ -28,6 +28,7 @@ import getImage from "utils/getImage";
 import getLanguage from "utils/getLanguage";
 import useDebounce from "hooks/useDebounce";
 import Empty from "components/empty/empty";
+import { error as toastError } from "components/alert/toast";
 
 const ModalContainer = dynamic(() => import("containers/modal/modal"));
 const ProductContainer = dynamic(
@@ -101,6 +102,21 @@ export default function ShopSingle({ memberState }: Props) {
     useState(false);
   const [searchValue, setSearchValue] = useState("");
   const debounceSearchValue = useDebounce(searchValue, 500);
+   const router = useRouter();
+    const { payment } = router.query;
+  
+    console.log("payment",payment);
+    
+  
+    useEffect(() => {
+      if (payment === 'success') {
+        toastError("Betaling mislykkedes!");
+  
+  
+      }
+        
+  
+      }, [payment, router]);
 
   useEffect(() => {
     if (products?.data?.all?.length && isSearchCategorySearchOpen) {
@@ -157,6 +173,9 @@ export default function ShopSingle({ memberState }: Props) {
       },
     },
   );
+
+  console.log("shopmm",shopId);
+  
 
   const [filteredProducts, setFilteredProducts] = useState(
     products?.data?.all || [],

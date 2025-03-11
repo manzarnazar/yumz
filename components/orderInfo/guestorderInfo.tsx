@@ -171,7 +171,7 @@ export default function GuestOrderInfo({ data }: Props) {
     return cart.shop_id === 0 || cart.shop_id === data?.shop.id;
   }
 
-  console.log("data",data);
+
   
   return (
     <div className={cls.wrapper}>
