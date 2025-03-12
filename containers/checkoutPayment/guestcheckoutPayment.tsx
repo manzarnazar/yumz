@@ -299,12 +299,12 @@ export default function GuestCheckoutPayment({
               <Price number={order.service_fee} />
             </div>
           </div>
-          <div className={cls.row}>
+          {/* <div className={cls.row}>
             <div className={cls.item}>{t("tips")}</div>
             <div className={cls.item}>
               <Price number={order?.tips} />
             </div>
-          </div>
+          </div> */}
         </div>
         <div className={cls.cardFooter}>
           <div className={cls.btnWrapper}>

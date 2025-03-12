@@ -180,7 +180,7 @@ export default function GuestDetailsModal({ open, handleClose, onSubmit }: Props
             aria-label="Phone"
           />
           <PrimaryButton onClick={handleSubmit} loading={isLoading}>
-            {t("Fortsætte")}
+            {t("Fortsæt")}
           </PrimaryButton>
         </div>
       </div>

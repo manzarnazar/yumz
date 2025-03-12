@@ -85,7 +85,7 @@ export default function MobileAppDrawer({ handleClose }: Props) {
           </div>
           <ArrowRightSLineIcon />
         </Link> */}
-        {isAuthenticated && (
+        {/* {isAuthenticated && (
           <Link href={"/parcels"} className={cls.row} onClick={handleClose}>
             <div className={cls.rowItem}>
               <ArchiveLineIcon />
@@ -93,7 +93,7 @@ export default function MobileAppDrawer({ handleClose }: Props) {
             </div>
             <ArrowRightSLineIcon />
           </Link>
-        )}
+        )} */}
         <Link href={"/liked"} className={cls.row} onClick={handleClose}>
           <div className={cls.rowItem}>
             <HeartLineIcon />

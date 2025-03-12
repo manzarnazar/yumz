@@ -196,7 +196,7 @@ export default function ProfileContainer({ data }: Props) {
                     label={t("email")}
                     placeholder={t("type.here")}
                     value={formik.values.email}
-                    disabled
+                    // disabled
                   />
                 </Grid>
                 <Grid item xs={12} md={6}>
@@ -208,7 +208,7 @@ export default function ProfileContainer({ data }: Props) {
                     onChange={
                       isUsingCustomPhoneSignIn ? formik.handleChange : undefined
                     }
-                    disabled={!isUsingCustomPhoneSignIn}
+                    // disabled={!isUsingCustomPhoneSignIn}
                   />
                 </Grid>
                 <Grid item xs={12} md={6} mt={2}>

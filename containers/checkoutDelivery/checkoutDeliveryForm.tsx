@@ -129,8 +129,8 @@ export default function CheckoutDeliveryForm({
             placeholder={t("type.here")}
           />
           <TextInput
-            name="dør"
-            label={t("office")}
+            name="address.office"
+            label={t("Dør")}
             value={formik.values.address?.office}
             onChange={formik.handleChange}
             placeholder={t("type.here")}
@@ -195,7 +195,7 @@ export default function CheckoutDeliveryForm({
             value={formik.values.for_someone}
           />
           <label htmlFor="for_someone" className={cls.label}>
-            {t("Bestille Til Nogen")}
+            {t("Bestil ordren til en anden")}
           </label>
         </div>
         {!!for_someone && (

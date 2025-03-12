@@ -122,16 +122,16 @@ export default function GuestCheckoutDeliveryForm({
       <div className={cls.form}>
         <div className={cls.flex}>
           <TextInput
-            name="address.office"
-            label={t("office")}
-            value={formik.values.address?.office}
+            name="address.house"
+            label={t("house")}
+            value={formik.values.address?.house}
             onChange={formik.handleChange}
             placeholder={t("type.here")}
           />
           <TextInput
-            name="address.house"
-            label={t("house")}
-            value={formik.values.address?.house}
+            name="address.office"
+            label={t("Dør")}
+            value={formik.values.address?.office}
             onChange={formik.handleChange}
             placeholder={t("type.here")}
           />
@@ -195,7 +195,7 @@ export default function GuestCheckoutDeliveryForm({
             value={formik.values.for_someone}
           />
           <label htmlFor="for_someone" className={cls.label}>
-            {t("Bestil Ordren Til En Anden")}
+            {t("Bestil ordren til en anden")}
           </label>
         </div>
         {!!for_someone && (
