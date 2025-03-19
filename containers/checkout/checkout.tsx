@@ -238,7 +238,7 @@ export default function CheckoutContainer({
         // Call handlePayment for "pensopay"
         handlePayment(data.data.id);
       } else {
-        replace(`/guestorders/${data.data.id}`);
+        replace(`/orders/${data.data.id}`);
       }
       
     },

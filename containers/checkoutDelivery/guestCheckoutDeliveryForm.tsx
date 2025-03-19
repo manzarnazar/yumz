@@ -130,7 +130,7 @@ export default function GuestCheckoutDeliveryForm({
           />
           <TextInput
             name="address.office"
-            label={t("Dør")}
+            label={t("hus-nummer")}
             value={formik.values.address?.office}
             onChange={formik.handleChange}
             placeholder={t("type.here")}
